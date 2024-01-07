@@ -1,4 +1,6 @@
 package Game;
 
-public class VisualObject {
+public interface VisualObject {
+    void print();
+    void move();
 }
