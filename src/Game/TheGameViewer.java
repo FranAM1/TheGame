@@ -12,25 +12,45 @@ public class TheGameViewer extends JFrame implements MouseListener {
 
     public TheGameViewer(TheGameModel model) {
         this.model = model;
-        initializeUI();
-        addMouseListener(this);
-    }
-
-    private void initializeUI() {
-        setTitle("The Game");
-        setSize(800, 600);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridBagLayout());
+        configureJFrame();
         setVisible(true);
     }
 
-    public void repaint() {
-        super.repaint();
+    private void configureJFrame() {
+        this.setTitle("The Game");
+        this.setLayout(new GridBagLayout());
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(800, 600);
+        this.addComponentsToPane(this.getContentPane());
     }
+
+    private void addComponentsToPane(Container pane) {
+        this.addViewerToPane(pane);
+    }
+
+    private void addViewerToPane(Container pane) {
+        GridBagConstraints c = new GridBagConstraints();
+        c.anchor = GridBagConstraints.NORTHWEST;
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = 0;
+        c.gridy = 0;
+        c.weightx = 0;
+        c.weighty = 0;
+        c.gridheight = 1;
+        c.gridwidth = 1;
+
+        viewer = new Viewer(model, this);
+        viewer.addMouseListener(this);
+        pane.add(viewer, c);
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Mouse clicked at " + e.getX() + ", " + e.getY());
+        Balls ball = new Balls(e.getX(), e.getY());
+        model.addVisualObject(ball);
+        viewer.paintBall(ball);
+        System.out.println("Clicked at: " + e.getX() + ", " + e.getY());
     }
 
     @Override

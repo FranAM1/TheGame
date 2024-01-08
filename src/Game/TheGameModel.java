@@ -12,4 +12,8 @@ public class TheGameModel {
     public void addVisualObject(VisualObject visualObject) {
         visualObjects.add(visualObject);
     }
+
+    public void colideDetection(Balls ball){
+
+    }
 }

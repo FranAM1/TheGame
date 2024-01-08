@@ -1,6 +1,8 @@
 package Game;
 
+import java.awt.*;
+
 public interface VisualObject {
-    void print();
+    void print(Graphics g);
     void move();
 }

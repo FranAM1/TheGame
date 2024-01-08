@@ -19,7 +19,6 @@ public class TheGameController {
 
     public void run() {
         while (true) {
-            this.viewer.repaint();
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
