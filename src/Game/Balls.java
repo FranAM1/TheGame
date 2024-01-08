@@ -3,13 +3,15 @@ package Game;
 import java.awt.*;
 
 public class Balls implements VisualObject, Runnable{
+    private TheGameModel model;
     private int positionX;
     private int positionY;
     private int velocityX;
     private int velocityY;
     private int radius;
 
-    public Balls(int positionX, int positionY) {
+    public Balls(TheGameModel model,int positionX, int positionY) {
+        this.model = model;
         this.positionX = positionX;
         this.positionY = positionY;
         this.velocityX = 5;
@@ -20,8 +22,7 @@ public class Balls implements VisualObject, Runnable{
     }
 
     public void bounce() {
-        this.velocityX *= -1;
-        this.velocityY *= -1;
+
     }
 
 
@@ -41,6 +42,7 @@ public class Balls implements VisualObject, Runnable{
     public void run() {
         while (true) {
             move();
+            model.checkBallOutOfBorders(this);
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {

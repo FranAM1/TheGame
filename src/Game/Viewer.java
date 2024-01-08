@@ -45,7 +45,7 @@ public class Viewer extends Canvas implements Runnable{
 
     private void checkBufferStrategy(){
         if (this.bs == null) {
-            this.createBufferStrategy(1);
+            this.createBufferStrategy(2);
             this.bs = this.getBufferStrategy();
         }
     }

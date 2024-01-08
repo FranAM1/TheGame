@@ -10,17 +10,17 @@ public class TheGameViewer extends JFrame implements MouseListener {
     private Viewer canvas;
     private ControlPanel controlPanel;
 
-    public TheGameViewer(TheGameModel model) {
+    public TheGameViewer(TheGameModel model, int dimensionX, int dimensionY) {
         this.model = model;
-        configureJFrame();
+        configureJFrame(dimensionX, dimensionY);
         setVisible(true);
     }
 
-    private void configureJFrame() {
+    private void configureJFrame(int dimensionX, int dimensionY) {
         this.setTitle("The Game");
         this.setLayout(new GridBagLayout());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800, 600);
+        this.setSize(dimensionX, dimensionY);
         this.addComponentsToPane(this.getContentPane());
     }
 
@@ -47,7 +47,7 @@ public class TheGameViewer extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Balls ball = new Balls(e.getX(), e.getY());
+        Balls ball = new Balls(this.model, e.getX(), e.getY());
         model.addVisualObject(ball);
         canvas.paintBall(ball);
         System.out.println("Clicked at: " + e.getX() + ", " + e.getY());
