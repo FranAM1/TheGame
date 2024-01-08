@@ -19,6 +19,7 @@ public class TheGameController {
 
     public void run() {
         while (true) {
+            viewer.getCanvas().repaintCanvas();
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {

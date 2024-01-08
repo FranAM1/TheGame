@@ -14,6 +14,20 @@ public class Viewer extends Canvas implements Runnable{
         this.bs = null;
     }
 
+    public void repaintCanvas() {
+        checkBufferStrategy();
+        Graphics g = bs.getDrawGraphics();
+
+        g.clearRect(0, 0, getWidth(), getHeight());
+
+        for (VisualObject visualObject : model.getVisualObjects()) {
+            visualObject.print(g);
+        }
+
+        bs.show();
+        g.dispose();
+    }
+
     public void paintBall(Balls ball) {
         checkBufferStrategy();
 
@@ -38,6 +52,23 @@ public class Viewer extends Canvas implements Runnable{
 
     @Override
     public void run() {
+        while (true) {
+            checkBufferStrategy();
 
+            Graphics g = bs.getDrawGraphics();
+
+            for (VisualObject visualObject : model.getVisualObjects()) {
+                visualObject.print(g);
+            }
+
+            bs.show();
+            g.dispose();
+
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

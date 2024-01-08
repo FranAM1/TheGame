@@ -15,12 +15,15 @@ public class Balls implements VisualObject, Runnable{
         this.velocityX = 5;
         this.velocityY = 5;
         this.radius = 50;
+        Thread thread = new Thread(this);
+        thread.start();
     }
 
     public void bounce() {
         this.velocityX *= -1;
         this.velocityY *= -1;
     }
+
 
     @Override
     public void print(Graphics g) {

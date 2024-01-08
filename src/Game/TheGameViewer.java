@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 
 public class TheGameViewer extends JFrame implements MouseListener {
     private TheGameModel model;
-    private Viewer viewer;
+    private Viewer canvas;
     private ControlPanel controlPanel;
 
     public TheGameViewer(TheGameModel model) {
@@ -39,9 +39,9 @@ public class TheGameViewer extends JFrame implements MouseListener {
         c.gridheight = 1;
         c.gridwidth = 1;
 
-        viewer = new Viewer(model, this);
-        viewer.addMouseListener(this);
-        pane.add(viewer, c);
+        canvas = new Viewer(model, this);
+        canvas.addMouseListener(this);
+        pane.add(canvas, c);
     }
 
 
@@ -49,7 +49,7 @@ public class TheGameViewer extends JFrame implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         Balls ball = new Balls(e.getX(), e.getY());
         model.addVisualObject(ball);
-        viewer.paintBall(ball);
+        canvas.paintBall(ball);
         System.out.println("Clicked at: " + e.getX() + ", " + e.getY());
     }
 
@@ -71,5 +71,29 @@ public class TheGameViewer extends JFrame implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public TheGameModel getModel() {
+        return model;
+    }
+
+    public void setModel(TheGameModel model) {
+        this.model = model;
+    }
+
+    public Viewer getCanvas() {
+        return canvas;
+    }
+
+    public void setCanvas(Viewer canvas) {
+        this.canvas = canvas;
+    }
+
+    public ControlPanel getControlPanel() {
+        return controlPanel;
+    }
+
+    public void setControlPanel(ControlPanel controlPanel) {
+        this.controlPanel = controlPanel;
     }
 }

@@ -16,4 +16,12 @@ public class TheGameModel {
     public void colideDetection(Balls ball){
 
     }
+
+    public ArrayList<VisualObject> getVisualObjects() {
+        return visualObjects;
+    }
+
+    public void setVisualObjects(ArrayList<VisualObject> visualObjects) {
+        this.visualObjects = visualObjects;
+    }
 }
