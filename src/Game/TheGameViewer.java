@@ -2,98 +2,73 @@ package Game;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.image.BufferStrategy;
 
-public class TheGameViewer extends JFrame implements MouseListener {
+public class TheGameViewer extends Canvas implements Runnable{
     private TheGameModel model;
-    private Viewer canvas;
-    private ControlPanel controlPanel;
+    private BufferStrategy bs;
 
-    public TheGameViewer(TheGameModel model, int dimensionX, int dimensionY) {
+    public TheGameViewer(TheGameModel model, JFrame frame) {
         this.model = model;
-        configureJFrame(dimensionX, dimensionY);
-        setVisible(true);
+        this.setSize(frame.getWidth(), frame.getHeight());
+        this.bs = null;
     }
 
-    private void configureJFrame(int dimensionX, int dimensionY) {
-        this.setTitle("The Game");
-        this.setLayout(new GridBagLayout());
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(dimensionX, dimensionY);
-        this.addComponentsToPane(this.getContentPane());
+    public void repaintCanvas() {
+        checkBufferStrategy();
+        Graphics g = bs.getDrawGraphics();
+
+        g.clearRect(0, 0, getWidth(), getHeight());
+
+        for (VisualObject visualObject : model.getVisualObjects()) {
+            visualObject.print(g);
+        }
+
+        bs.show();
+        g.dispose();
     }
 
-    private void addComponentsToPane(Container pane) {
-        this.addViewerToPane(pane);
-    }
+    public void paintBall(Balls ball) {
+        checkBufferStrategy();
 
-    private void addViewerToPane(Container pane) {
-        GridBagConstraints c = new GridBagConstraints();
-        c.anchor = GridBagConstraints.NORTHWEST;
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 0;
-        c.gridy = 0;
-        c.weightx = 0;
-        c.weighty = 0;
-        c.gridheight = 1;
-        c.gridwidth = 1;
+        Graphics g = bs.getDrawGraphics();
 
-        canvas = new Viewer(model, this);
-        canvas.addMouseListener(this);
-        pane.add(canvas, c);
-    }
-
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        Balls ball = new Balls(this.model, e.getX(), e.getY());
-        model.addVisualObject(ball);
-        canvas.paintBall(ball);
-        System.out.println("Clicked at: " + e.getX() + ", " + e.getY());
+        ball.print(g);
+        bs.show();
+        g.dispose();
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void paint(Graphics g) {
+        System.out.println("Painting");
+    }
 
+    private void checkBufferStrategy(){
+        if (this.bs == null) {
+            this.createBufferStrategy(2);
+            this.bs = this.getBufferStrategy();
+        }
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
+    public void run() {
+        while (true) {
+            checkBufferStrategy();
 
-    }
+            Graphics g = bs.getDrawGraphics();
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+            for (VisualObject visualObject : model.getVisualObjects()) {
+                visualObject.print(g);
+            }
 
-    }
+            bs.show();
+            g.dispose();
 
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-
-    public TheGameModel getModel() {
-        return model;
-    }
-
-    public void setModel(TheGameModel model) {
-        this.model = model;
-    }
-
-    public Viewer getCanvas() {
-        return canvas;
-    }
-
-    public void setCanvas(Viewer canvas) {
-        this.canvas = canvas;
-    }
-
-    public ControlPanel getControlPanel() {
-        return controlPanel;
-    }
-
-    public void setControlPanel(ControlPanel controlPanel) {
-        this.controlPanel = controlPanel;
+            try {
+                Thread.sleep(20);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
