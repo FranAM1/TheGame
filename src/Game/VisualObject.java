@@ -7,5 +7,5 @@ public interface VisualObject {
     void move();
     void kill();
     void explode();
-    void bounce();
+    void bounce(String direction);
 }

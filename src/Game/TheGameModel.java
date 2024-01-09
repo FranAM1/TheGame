@@ -3,23 +3,20 @@ package Game;
 import java.util.ArrayList;
 
 public class TheGameModel {
+    TheGameController controller;
     private ArrayList<VisualObject> visualObjects;
     private int dimensionX;
     private int dimensionY;
 
-    public TheGameModel(int dimensionX, int dimensionY) {
+    public TheGameModel(int dimensionX, int dimensionY, TheGameController controller) {
+        this.controller = controller;
         visualObjects = new ArrayList<>();
         this.dimensionX = dimensionX;
         this.dimensionY = dimensionY;
     }
 
-    public void checkBallOutOfBorders(Balls ball) {
-        if (ball.getPositionX() < 0 || ball.getPositionX() > dimensionX - ball.getRadius()) {
-            ball.setVelocityX(-ball.getVelocityX());
-        }
-        if (ball.getPositionY() < 0 || ball.getPositionY() > dimensionY - ball.getRadius()) {
-            ball.setVelocityY(-ball.getVelocityY());
-        }
+    public String nextMove(int x, int y, int radius){
+        return controller.nextMove(x, y, radius);
     }
 
     public void addVisualObject(VisualObject visualObject) {

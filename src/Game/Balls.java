@@ -17,8 +17,12 @@ public class Balls implements VisualObject, Runnable{
         this.velocityX = 5;
         this.velocityY = 5;
         this.radius = 50;
-        Thread thread = new Thread(this);
-        thread.start();
+    }
+
+    public String nextMove() {
+        int x = positionX + velocityX;
+        int y = positionY + velocityY;
+        return model.nextMove(x, y, this.radius);
     }
 
 
@@ -45,15 +49,28 @@ public class Balls implements VisualObject, Runnable{
     }
 
     @Override
-    public void bounce() {
-
+    public void bounce(String direction) {
+        if (direction.equals("x")){
+            velocityX = -velocityX;
+        }else if (direction.equals("y")){
+            velocityY = -velocityY;
+        }
     }
 
     @Override
     public void run() {
         while (true) {
-            move();
-            model.checkBallOutOfBorders(this);
+            switch (nextMove()){
+                case "bounceX":
+                    bounce("x");
+                    break;
+                case "bounceY":
+                    bounce("y");
+                    break;
+                case "move":
+                    move();
+                    break;
+            }
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {

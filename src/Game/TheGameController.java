@@ -1,18 +1,22 @@
 package Game;
 
+import MainController.TheGamePeerController;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class TheGameController extends JFrame implements MouseListener {
+    private TheGamePeerController peerController;
     private TheGameModel model;
     private TheGameViewer viewer;
     private static final int width = 800;
     private static final int height = 600;
+    private static final int space = 50;
 
-    public TheGameController(TheGameModel model, TheGameViewer viewer) {
-        this.model = model;
-        this.viewer = viewer;
+    public TheGameController(TheGamePeerController peerController) {
+        this.peerController = peerController;
+        this.model = new TheGameModel(width, height, this);
+        this.viewer = new TheGameViewer(model, width, height);
         configureJFrame();
         configureCanvas();
         setVisible(true);
@@ -32,27 +36,18 @@ public class TheGameController extends JFrame implements MouseListener {
         this.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        TheGameModel model = new TheGameModel(width, height);
-        TheGameViewer viewer = new TheGameViewer(model, width, height);
-        TheGameController controller = new TheGameController(model, viewer);
-
-        controller.run();
-    }
-
-    public void run() {
-        while (true) {
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    public String nextMove(int x, int y, int radius){
+        return peerController.nextMove(x, y, radius);
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (e.getX() < space || e.getX() + space >= width || e.getY() < space || e.getY() + space >= height){
+            return;
+        }
         Balls ball = new Balls(model, e.getX(), e.getY());
+        Thread thread = new Thread(ball);
+        thread.start();
         model.addVisualObject(ball);
         viewer.paintBall(ball);
     }
@@ -76,4 +71,30 @@ public class TheGameController extends JFrame implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
+    public TheGamePeerController getPeerController() {
+        return peerController;
+    }
+
+    public void setPeerController(TheGamePeerController peerController) {
+        this.peerController = peerController;
+    }
+
+    public TheGameModel getModel() {
+        return model;
+    }
+
+    public void setModel(TheGameModel model) {
+        this.model = model;
+    }
+
+    public TheGameViewer getViewer() {
+        return viewer;
+    }
+
+    public void setViewer(TheGameViewer viewer) {
+        this.viewer = viewer;
+    }
+
+
 }
