@@ -21,13 +21,9 @@ public class Balls implements VisualObject, Runnable{
         thread.start();
     }
 
-    public void bounce() {
-
-    }
-
 
     @Override
-    public void print(Graphics g) {
+    public void paint(Graphics g) {
         g.setColor(Color.RED);
         g.fillOval(positionX, positionY, radius, radius);
     }
@@ -36,6 +32,21 @@ public class Balls implements VisualObject, Runnable{
     public void move() {
         positionX += velocityX;
         positionY += velocityY;
+    }
+
+    @Override
+    public void kill() {
+
+    }
+
+    @Override
+    public void explode() {
+
+    }
+
+    @Override
+    public void bounce() {
+
     }
 
     @Override

@@ -3,6 +3,9 @@ package Game;
 import java.awt.*;
 
 public interface VisualObject {
-    void print(Graphics g);
+    void paint(Graphics g);
     void move();
+    void kill();
+    void explode();
+    void bounce();
 }

@@ -1,6 +1,5 @@
 package Game;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -8,20 +7,20 @@ public class TheGameViewer extends Canvas implements Runnable{
     private TheGameModel model;
     private BufferStrategy bs;
 
-    public TheGameViewer(TheGameModel model, JFrame frame) {
+    public TheGameViewer(TheGameModel model, int width, int height) {
         this.model = model;
-        this.setSize(frame.getWidth(), frame.getHeight());
+        this.setSize(width, height);
         this.bs = null;
     }
 
-    public void repaintCanvas() {
+    private void repaintCanvas() {
         checkBufferStrategy();
         Graphics g = bs.getDrawGraphics();
 
         g.clearRect(0, 0, getWidth(), getHeight());
 
         for (VisualObject visualObject : model.getVisualObjects()) {
-            visualObject.print(g);
+            visualObject.paint(g);
         }
 
         bs.show();
@@ -33,7 +32,7 @@ public class TheGameViewer extends Canvas implements Runnable{
 
         Graphics g = bs.getDrawGraphics();
 
-        ball.print(g);
+        ball.paint(g);
         bs.show();
         g.dispose();
     }
@@ -53,17 +52,7 @@ public class TheGameViewer extends Canvas implements Runnable{
     @Override
     public void run() {
         while (true) {
-            checkBufferStrategy();
-
-            Graphics g = bs.getDrawGraphics();
-
-            for (VisualObject visualObject : model.getVisualObjects()) {
-                visualObject.print(g);
-            }
-
-            bs.show();
-            g.dispose();
-
+            repaintCanvas();
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {
