@@ -1,17 +1,22 @@
 package Game;
 
+import Game.VisualObjects.Balls;
+import Game.VisualObjects.BorderWall;
+import Game.VisualObjects.VisualObject;
 import MainController.TheGamePeerController;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class TheGameController extends JFrame implements MouseListener {
     private TheGamePeerController peerController;
+    private TheGameRules rules;
     private TheGameModel model;
     private TheGameViewer viewer;
     private static final int width = 800;
     private static final int height = 600;
-    private static final int space = 50;
+    private static final int wallSpace = 10;
 
     public TheGameController(TheGamePeerController peerController) {
         this.peerController = peerController;
@@ -19,7 +24,9 @@ public class TheGameController extends JFrame implements MouseListener {
         this.viewer = new TheGameViewer(model, width, height);
         configureJFrame();
         configureCanvas();
+        createBorderWalls();
         setVisible(true);
+        this.pack();
     }
 
     private void configureCanvas(){
@@ -29,27 +36,30 @@ public class TheGameController extends JFrame implements MouseListener {
         thread.start();
     }
 
+    public void collideManagment(VisualObject v1, VisualObject v2){
+
+    }
+
+    private void createBorderWalls(){
+        model.addVisualObject(new BorderWall(0, 0, width, wallSpace, "top"));
+        model.addVisualObject(new BorderWall(0, 0, wallSpace, height, "left"));
+        model.addVisualObject(new BorderWall(0, height - wallSpace, width, wallSpace, "bottom"));
+        model.addVisualObject(new BorderWall(width - wallSpace, 0, wallSpace, height, "right"));
+    }
+
     private void configureJFrame() {
-        this.setSize(width, height);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addMouseListener(this);
         this.setVisible(true);
     }
 
-    public String nextMove(int x, int y, int radius){
-        return peerController.nextMove(x, y, radius);
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getX() < space || e.getX() + space >= width || e.getY() < space || e.getY() + space >= height){
-            return;
-        }
         Balls ball = new Balls(model, e.getX(), e.getY());
         Thread thread = new Thread(ball);
         thread.start();
         model.addVisualObject(ball);
-        viewer.paintBall(ball);
     }
 
     @Override

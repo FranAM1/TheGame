@@ -1,4 +1,6 @@
-package Game;
+package Game.VisualObjects;
+
+import Game.TheGameModel;
 
 import java.awt.*;
 
@@ -19,12 +21,35 @@ public class Balls implements VisualObject, Runnable{
         this.radius = 50;
     }
 
-    public String nextMove() {
-        int x = positionX + velocityX;
-        int y = positionY + velocityY;
-        return model.nextMove(x, y, this.radius);
+    public void nextMove() {
+        int[] newPosition = calcNextMove();
+
+        this.model.collideDetection(this, newPosition);
     }
 
+    private int[] calcNextMove(){
+        int[] newPosition = new int[2];
+        newPosition[0] = positionX + velocityX;
+        newPosition[1] = positionY + velocityY;
+
+        return newPosition;
+    }
+
+    @Override
+    public int[] getDimensions() {
+        int[] dimensions = new int[2];
+        dimensions[0] = radius;
+        dimensions[1] = radius;
+        return dimensions;
+    }
+
+    @Override
+    public int[] getPosition() {
+        int[] position = new int[2];
+        position[0] = positionX;
+        position[1] = positionY;
+        return position;
+    }
 
     @Override
     public void paint(Graphics g) {
@@ -33,9 +58,9 @@ public class Balls implements VisualObject, Runnable{
     }
 
     @Override
-    public void move() {
-        positionX += velocityX;
-        positionY += velocityY;
+    public void move(int[] newPosition) {
+        this.positionX = newPosition[0];
+        this.positionY = newPosition[1];
     }
 
     @Override
@@ -49,28 +74,14 @@ public class Balls implements VisualObject, Runnable{
     }
 
     @Override
-    public void bounce(String direction) {
-        if (direction.equals("x")){
-            velocityX = -velocityX;
-        }else if (direction.equals("y")){
-            velocityY = -velocityY;
-        }
+    public void bounce() {
+
     }
 
     @Override
     public void run() {
         while (true) {
-            switch (nextMove()){
-                case "bounceX":
-                    bounce("x");
-                    break;
-                case "bounceY":
-                    bounce("y");
-                    break;
-                case "move":
-                    move();
-                    break;
-            }
+            this.nextMove();
             try {
                 Thread.sleep(20);
             } catch (InterruptedException e) {

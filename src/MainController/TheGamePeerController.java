@@ -15,15 +15,6 @@ public class TheGamePeerController {
         mainController.run();
     }
 
-    public String nextMove(int x, int y, int radius){
-        if (x < 0 || x >= gameController.getWidth() - radius){
-            return "bounceX";
-        }else if (y < 0 || y >= gameController.getHeight() - radius){
-            return "bounceY";
-        }
-        return "move";
-    }
-
     public void run() {
         while (true) {
             try {
