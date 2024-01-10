@@ -16,7 +16,7 @@ public class TheGameController extends JFrame implements MouseListener {
     private TheGameViewer viewer;
     private static final int width = 800;
     private static final int height = 600;
-    private static final int wallSpace = 10;
+    private static final int wallSpace = 5;
 
     public TheGameController(TheGamePeerController peerController) {
         this.rules = new TheGameRules();
@@ -38,18 +38,7 @@ public class TheGameController extends JFrame implements MouseListener {
     }
 
     public void collideManagment(VisualObject v1, VisualObject v2){
-        switch(rules.applyCollisionRules(v1, v2)){
-            case "balls":
-                v1.bounce("both");
-                v2.bounce("both");
-                break;
-            case "borderWallX":
-                v1.bounce("horizontal");
-                break;
-            case "borderWallY":
-                v1.bounce("vertical");
-                break;
-        }
+        rules.applyCollisionRules(v1, v2);
     }
 
     private void createBorderWalls(){

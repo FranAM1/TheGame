@@ -3,6 +3,7 @@ package Game.VisualObjects;
 import Game.TheGameModel;
 
 import java.awt.*;
+import java.util.Random;
 
 public class Balls implements VisualObject, Runnable{
     private TheGameModel model;
@@ -16,7 +17,12 @@ public class Balls implements VisualObject, Runnable{
         this.model = model;
         this.positionX = positionX;
         this.positionY = positionY;
-        this.velocityX = 5;
+        Random random = new Random();
+        if (random.nextBoolean()){
+            this.velocityX = -5;
+        } else {
+            this.velocityX = 5;
+        }
         this.velocityY = 5;
         this.diameter = 50;
     }
