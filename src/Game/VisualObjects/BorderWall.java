@@ -7,14 +7,12 @@ public class BorderWall implements VisualObject{
     private int positionY;
     private int width;
     private int height;
-    private String position;
 
-    public BorderWall(int positionX, int positionY, int width, int height, String position) {
+    public BorderWall(int positionX, int positionY, int width, int height) {
         this.positionX = positionX;
         this.positionY = positionY;
         this.width = width;
         this.height = height;
-        this.position = position;
     }
 
     @Override
@@ -55,7 +53,39 @@ public class BorderWall implements VisualObject{
     }
 
     @Override
-    public void bounce() {
+    public void bounce(String bounceType) {
 
+    }
+
+    public int getPositionX() {
+        return positionX;
+    }
+
+    public void setPositionX(int positionX) {
+        this.positionX = positionX;
+    }
+
+    public int getPositionY() {
+        return positionY;
+    }
+
+    public void setPositionY(int positionY) {
+        this.positionY = positionY;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
     }
 }

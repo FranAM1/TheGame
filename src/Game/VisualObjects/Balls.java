@@ -10,7 +10,7 @@ public class Balls implements VisualObject, Runnable{
     private int positionY;
     private int velocityX;
     private int velocityY;
-    private int radius;
+    private int diameter;
 
     public Balls(TheGameModel model,int positionX, int positionY) {
         this.model = model;
@@ -18,7 +18,7 @@ public class Balls implements VisualObject, Runnable{
         this.positionY = positionY;
         this.velocityX = 5;
         this.velocityY = 5;
-        this.radius = 50;
+        this.diameter = 50;
     }
 
     public void nextMove() {
@@ -38,8 +38,8 @@ public class Balls implements VisualObject, Runnable{
     @Override
     public int[] getDimensions() {
         int[] dimensions = new int[2];
-        dimensions[0] = radius;
-        dimensions[1] = radius;
+        dimensions[0] = diameter;
+        dimensions[1] = diameter;
         return dimensions;
     }
 
@@ -54,7 +54,7 @@ public class Balls implements VisualObject, Runnable{
     @Override
     public void paint(Graphics g) {
         g.setColor(Color.RED);
-        g.fillOval(positionX, positionY, radius, radius);
+        g.fillOval(positionX, positionY, diameter, diameter);
     }
 
     @Override
@@ -74,8 +74,24 @@ public class Balls implements VisualObject, Runnable{
     }
 
     @Override
-    public void bounce() {
+    public void bounce(String bounceType) {
+        int bounceX = -this.velocityX;
+        int bounceY = -this.velocityY;
 
+        switch (bounceType) {
+            case "horizontal":
+                this.velocityX = bounceX;
+                break;
+            case "vertical":
+                this.velocityY = bounceY;
+                break;
+            case "both":
+                this.velocityX = bounceX;
+                this.velocityY = bounceY;
+                break;
+        }
+
+        this.move(this.calcNextMove());
     }
 
     @Override
@@ -122,11 +138,11 @@ public class Balls implements VisualObject, Runnable{
         this.velocityY = velocityY;
     }
 
-    public int getRadius() {
-        return radius;
+    public int getDiameter() {
+        return diameter;
     }
 
-    public void setRadius(int radius) {
-        this.radius = radius;
+    public void setDiameter(int diameter) {
+        this.diameter = diameter;
     }
 }

@@ -7,7 +7,7 @@ public interface VisualObject {
     void move(int[] newPosition);
     void kill();
     void explode();
-    void bounce();
+    void bounce(String bounceType);
     int[] getDimensions();
     int[] getPosition();
 }

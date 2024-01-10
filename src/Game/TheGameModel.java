@@ -24,7 +24,7 @@ public class TheGameModel {
             if (otherVisualObject != visualObject) {
                 if (collisionBetweenTwoObjects(visualObject, otherVisualObject)) {
                     collision = true;
-                    this.controller.collideManagment(visualObject, otherVisualObject));
+                    this.controller.collideManagment(visualObject, otherVisualObject);
                     break;
                 }
             }
