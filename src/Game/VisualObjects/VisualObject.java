@@ -10,4 +10,5 @@ public interface VisualObject {
     void bounce(String bounceType);
     int[] getDimensions();
     int[] getPosition();
+    Hitbox getHitbox();
 }

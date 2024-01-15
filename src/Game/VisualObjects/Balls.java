@@ -58,6 +58,11 @@ public class Balls implements VisualObject, Runnable{
     }
 
     @Override
+    public Hitbox getHitbox() {
+        return new Hitbox(positionX, positionY, diameter, diameter);
+    }
+
+    @Override
     public void paint(Graphics g) {
         g.setColor(Color.RED);
         g.fillOval(positionX, positionY, diameter, diameter);

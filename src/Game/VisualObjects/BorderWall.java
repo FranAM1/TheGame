@@ -32,6 +32,11 @@ public class BorderWall implements VisualObject{
     }
 
     @Override
+    public Hitbox getHitbox() {
+        return new Hitbox(positionX, positionY, width, height);
+    }
+
+    @Override
     public void paint(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(positionX, positionY, width, height);
