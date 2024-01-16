@@ -37,7 +37,7 @@ public class TheGameController extends JFrame implements MouseListener {
         thread.start();
     }
 
-    public void collideManagment(VisualObject v1, VisualObject v2){
+    public void collideManagement(VisualObject v1, VisualObject v2){
         rules.applyCollisionRules(v1, v2);
     }
 
@@ -58,9 +58,12 @@ public class TheGameController extends JFrame implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         Balls ball = new Balls(model, e.getX(), e.getY());
-        Thread thread = new Thread(ball);
-        thread.start();
-        model.addVisualObject(ball);
+
+        if(model.checkForCollision(ball) == null){
+            Thread thread = new Thread(ball);
+            thread.start();
+            model.addVisualObject(ball);
+        }
     }
 
     @Override

@@ -12,6 +12,7 @@ public class TheGameViewer extends Canvas implements Runnable{
 
     public TheGameViewer(TheGameModel model, int width, int height) {
         this.model = model;
+        this.setBackground(Color.darkGray);
         this.setPreferredSize(new Dimension(width, height));
         this.bs = null;
     }

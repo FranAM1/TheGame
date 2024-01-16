@@ -38,7 +38,7 @@ public class BorderWall implements VisualObject{
 
     @Override
     public void paint(Graphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(new Color(0, 0, 0, 0));
         g.fillRect(positionX, positionY, width, height);
     }
 

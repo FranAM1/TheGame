@@ -18,21 +18,24 @@ public class TheGameModel {
     }
 
     public void collideDetection(VisualObject visualObject, int[] newPosition){
-        boolean collision = false;
+        VisualObject collisionObject = checkForCollision(visualObject);
 
+        if(collisionObject != null){
+            controller.collideManagement(visualObject, collisionObject);
+        } else {
+            visualObject.move(newPosition);
+        }
+    }
+
+    public VisualObject checkForCollision(VisualObject visualObject){
         for (VisualObject otherVisualObject : visualObjects) {
             if (otherVisualObject != visualObject) {
                 if (visualObject.getHitbox().intersects(otherVisualObject.getHitbox())) {
-                    collision = true;
-                    this.controller.collideManagment(visualObject, otherVisualObject);
-                    break;
+                    return otherVisualObject;
                 }
             }
         }
-
-        if (!collision) {
-            visualObject.move(newPosition);
-        }
+        return null;
     }
 
     public void addVisualObject(VisualObject visualObject) {
