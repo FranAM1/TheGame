@@ -1,12 +1,12 @@
 package Game;
 
-import Game.VisualObjects.VisualObject;
+import Game.VisualObjects.VO;
 
 import java.util.ArrayList;
 
 public class TheGameModel {
     TheGameController controller;
-    private ArrayList<VisualObject> visualObjects;
+    private ArrayList<VO> visualObjects;
     private int dimensionX;
     private int dimensionY;
 
@@ -17,8 +17,8 @@ public class TheGameModel {
         this.dimensionY = dimensionY;
     }
 
-    public void collideDetection(VisualObject visualObject, int[] newPosition){
-        VisualObject collisionObject = checkForCollision(visualObject);
+    public void collideDetection(VO visualObject, int[] newPosition){
+        VO collisionObject = checkForCollision(visualObject);
 
         if(collisionObject != null){
             controller.collideManagement(visualObject, collisionObject);
@@ -27,8 +27,8 @@ public class TheGameModel {
         }
     }
 
-    public VisualObject checkForCollision(VisualObject visualObject){
-        for (VisualObject otherVisualObject : visualObjects) {
+    public VO checkForCollision(VO visualObject){
+        for (VO otherVisualObject : visualObjects) {
             if (otherVisualObject != visualObject) {
                 if (visualObject.getHitbox().intersects(otherVisualObject.getHitbox())) {
                     return otherVisualObject;
@@ -38,15 +38,15 @@ public class TheGameModel {
         return null;
     }
 
-    public void addVisualObject(VisualObject visualObject) {
+    public void addVisualObject(VO visualObject) {
         visualObjects.add(visualObject);
     }
 
-    public ArrayList<VisualObject> getVisualObjects() {
+    public ArrayList<VO> getVisualObjects() {
         return visualObjects;
     }
 
-    public void setVisualObjects(ArrayList<VisualObject> visualObjects) {
+    public void setVisualObjects(ArrayList<VO> visualObjects) {
         this.visualObjects = visualObjects;
     }
 

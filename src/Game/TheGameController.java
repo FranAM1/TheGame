@@ -1,11 +1,10 @@
 package Game;
 
-import Game.VisualObjects.Balls;
-import Game.VisualObjects.BorderWall;
-import Game.VisualObjects.VisualObject;
+import Game.VisualObjectsDynamic.Ball;
+import Game.VisualObjects.Wall;
+import Game.VisualObjects.VO;
 import MainController.TheGamePeerController;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -37,15 +36,15 @@ public class TheGameController extends JFrame implements MouseListener {
         thread.start();
     }
 
-    public void collideManagement(VisualObject v1, VisualObject v2){
+    public void collideManagement(VO v1, VO v2){
         rules.applyCollisionRules(v1, v2);
     }
 
     private void createBorderWalls(){
-        model.addVisualObject(new BorderWall(0, 0, width, wallSpace));
-        model.addVisualObject(new BorderWall(0, 0, wallSpace, height));
-        model.addVisualObject(new BorderWall(0, height - wallSpace, width, wallSpace));
-        model.addVisualObject(new BorderWall(width - wallSpace, 0, wallSpace, height));
+        model.addVisualObject(new Wall(0, 0, width, wallSpace));
+        model.addVisualObject(new Wall(0, 0, wallSpace, height));
+        model.addVisualObject(new Wall(0, height - wallSpace, width, wallSpace));
+        model.addVisualObject(new Wall(width - wallSpace, 0, wallSpace, height));
     }
 
     private void configureJFrame() {
@@ -57,7 +56,7 @@ public class TheGameController extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Balls ball = new Balls(model, e.getX(), e.getY());
+        Ball ball = new Ball(model, e.getX(), e.getY());
 
         if(model.checkForCollision(ball) == null){
             Thread thread = new Thread(ball);

@@ -1,7 +1,6 @@
 package Game;
 
-import Game.VisualObjects.Balls;
-import Game.VisualObjects.VisualObject;
+import Game.VisualObjects.VO;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -23,7 +22,7 @@ public class TheGameViewer extends Canvas implements Runnable{
 
         g.clearRect(0, 0, getWidth(), getHeight());
 
-        for (VisualObject visualObject : model.getVisualObjects()) {
+        for (VO visualObject : model.getVisualObjects()) {
             visualObject.paint(g);
         }
 

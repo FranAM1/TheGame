@@ -1,19 +1,19 @@
 package Game;
 
-import Game.VisualObjects.Balls;
-import Game.VisualObjects.BorderWall;
-import Game.VisualObjects.VisualObject;
+import Game.VisualObjectsDynamic.Ball;
+import Game.VisualObjects.Wall;
+import Game.VisualObjects.VO;
 
 public class TheGameRules {
 
-    public void applyCollisionRules(VisualObject v1, VisualObject v2) {
+    public void applyCollisionRules(VO v1, VO v2) {
         // CASO DOS BOLAS
-        if (v1 instanceof Balls && v2 instanceof Balls) {
+        if (v1 instanceof Ball && v2 instanceof Ball) {
             v1.bounce("both");
             v2.bounce("both");
         }
         // CASO BOLA Y PARED
-        else if (v1 instanceof Balls && v2 instanceof BorderWall) {
+        else if (v1 instanceof Ball && v2 instanceof Wall) {
             // Posicion 0 es width, posicion 1 es height
             int[] wallDimensions = v2.getDimensions();
 
