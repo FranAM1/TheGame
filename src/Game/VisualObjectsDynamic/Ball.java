@@ -59,7 +59,14 @@ public class Ball extends VODynamic {
 
     @Override
     public void run() {
-
+        while (this.getState() == VODState.ALIVE){
+            this.nextMove();
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public int getRadius() {

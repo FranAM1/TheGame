@@ -28,7 +28,10 @@ public class Wall extends VO {
 
     @Override
     public Hitbox getHitbox() {
-        return null;
+        return new Hitbox(this.position.getX(),
+                          this.position.getY(),
+                          this.dimensions.width,
+                          this.dimensions.height);
     }
 
     public WallLocation getLocation() {

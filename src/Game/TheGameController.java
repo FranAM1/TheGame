@@ -1,7 +1,9 @@
 package Game;
 
 import DTO.CoordinatesDTO;
+import DTO.VectorDTO;
 import Enums.GateState;
+import Enums.VODState;
 import Enums.WallLocation;
 import Game.VisualObjects.Gate;
 import Game.VisualObjectsDynamic.Ball;
@@ -74,7 +76,18 @@ public class TheGameController extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // Ball ball = new Ball(model, e.getX(), e.getY());
+        CoordinatesDTO position = new CoordinatesDTO(e.getX(), e.getY());
+        VectorDTO velocity = new VectorDTO(5,5);
+        VectorDTO acceleration = new VectorDTO(0,0);
+        VODState state = VODState.ALIVE;
+        Ball ball = new Ball(position, velocity, acceleration, state, model, 25, Color.RED, 1);
+
+        if (this.model.checkForCollision(ball) != null){
+            System.out.println("No se puede crear la bola en esa posicion");
+            return;
+        }
+
+        this.model.addVisualObject(ball);
     }
 
     @Override
