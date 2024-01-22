@@ -1,6 +1,8 @@
 package Game;
 
+import DTO.VectorDTO;
 import Game.VisualObjects.VO;
+import Game.VisualObjectsDynamic.VODynamic;
 
 import java.util.ArrayList;
 
@@ -17,14 +19,8 @@ public class TheGameModel {
         this.dimensionY = dimensionY;
     }
 
-    public void collideDetection(VO visualObject, int[] newPosition){
-        VO collisionObject = checkForCollision(visualObject);
+    public void collideDetection(VO visualObject, VectorDTO newPosition){
 
-        if(collisionObject != null){
-            controller.collideManagement(visualObject, collisionObject);
-        } else {
-            visualObject.move(newPosition);
-        }
     }
 
     public VO checkForCollision(VO visualObject){

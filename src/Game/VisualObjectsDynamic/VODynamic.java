@@ -3,6 +3,7 @@ package Game.VisualObjectsDynamic;
 import DTO.CoordinatesDTO;
 import DTO.VectorDTO;
 import Enums.VODState;
+import Game.VisualObjects.Hitbox;
 import Game.VisualObjects.VO;
 
 public abstract class VODynamic extends VO implements Runnable{
@@ -21,7 +22,6 @@ public abstract class VODynamic extends VO implements Runnable{
     }
 
     public abstract void nextMove();
-
 
     public CoordinatesDTO getPosition() {
         return position;

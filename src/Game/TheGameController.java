@@ -1,10 +1,15 @@
 package Game;
 
+import DTO.CoordinatesDTO;
+import Enums.GateState;
+import Enums.WallLocation;
+import Game.VisualObjects.Gate;
 import Game.VisualObjectsDynamic.Ball;
 import Game.VisualObjects.Wall;
 import Game.VisualObjects.VO;
 import MainController.TheGamePeerController;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -24,7 +29,7 @@ public class TheGameController extends JFrame implements MouseListener {
         this.viewer = new TheGameViewer(model, width, height);
         configureJFrame();
         configureCanvas();
-        createBorderWalls();
+        createBorderGates();
         setVisible(true);
         this.pack();
     }
@@ -40,11 +45,24 @@ public class TheGameController extends JFrame implements MouseListener {
         rules.applyCollisionRules(v1, v2);
     }
 
-    private void createBorderWalls(){
-        model.addVisualObject(new Wall(0, 0, width, wallSpace));
-        model.addVisualObject(new Wall(0, 0, wallSpace, height));
-        model.addVisualObject(new Wall(0, height - wallSpace, width, wallSpace));
-        model.addVisualObject(new Wall(width - wallSpace, 0, wallSpace, height));
+    private void createBorderGates(){
+        Dimension fullWidth = new Dimension(width, wallSpace);
+        Dimension fullHeight = new Dimension(wallSpace, height);
+
+        CoordinatesDTO northPosition = new CoordinatesDTO(0, 0);
+        CoordinatesDTO eastPosition = new CoordinatesDTO(width - wallSpace, 0);
+        CoordinatesDTO southPosition = new CoordinatesDTO(0, height - wallSpace);
+        CoordinatesDTO westPosition = new CoordinatesDTO(0, 0);
+
+        Gate northGate = new Gate(GateState.CLOSED, WallLocation.NORTH, fullWidth, northPosition);
+        Gate eastGate = new Gate(GateState.CLOSED, WallLocation.EAST, fullHeight, eastPosition);
+        Gate southGate = new Gate(GateState.CLOSED, WallLocation.SOUTH, fullWidth, southPosition);
+        Gate westGate = new Gate(GateState.CLOSED, WallLocation.WEST, fullHeight, westPosition);
+
+        model.addVisualObject(northGate);
+        model.addVisualObject(eastGate);
+        model.addVisualObject(southGate);
+        model.addVisualObject(westGate);
     }
 
     private void configureJFrame() {
@@ -56,13 +74,7 @@ public class TheGameController extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        Ball ball = new Ball(model, e.getX(), e.getY());
-
-        if(model.checkForCollision(ball) == null){
-            Thread thread = new Thread(ball);
-            thread.start();
-            model.addVisualObject(ball);
-        }
+        // Ball ball = new Ball(model, e.getX(), e.getY());
     }
 
     @Override
