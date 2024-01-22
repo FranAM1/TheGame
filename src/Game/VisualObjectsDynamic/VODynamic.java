@@ -12,6 +12,14 @@ public abstract class VODynamic extends VO implements Runnable{
     private VectorDTO acceleration;
     private VODState state;
 
+    public VODynamic(CoordinatesDTO position, VectorDTO velocity, VectorDTO acceleration, VODState state) {
+        super();
+        this.setPosition(position);
+        this.setVelocity(velocity);
+        this.setAcceleration(acceleration);
+        this.setState(state);
+    }
+
     public abstract void nextMove();
 
 
