@@ -7,7 +7,6 @@ import Enums.VODState;
 import Enums.WallLocation;
 import Game.VisualObjects.Gate;
 import Game.VisualObjectsDynamic.Ball;
-import Game.VisualObjects.Wall;
 import Game.VisualObjects.VO;
 import MainController.TheGamePeerController;
 import javax.swing.*;

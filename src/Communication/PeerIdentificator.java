@@ -1,6 +1,6 @@
 package Communication;
 
-public class Channel implements Runnable{
+public class PeerIdentificator implements Runnable{
     @Override
     public void run() {
 

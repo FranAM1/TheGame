@@ -7,6 +7,8 @@ import java.net.ServerSocket;
 public class ServerConnector implements Runnable {
     private ServerSocket serverSocket;
 
+    private PeerIdentificator pi;
+
     public ServerConnector(int port) {
         try {
             this.serverSocket = new ServerSocket(port);
@@ -17,6 +19,12 @@ public class ServerConnector implements Runnable {
 
     @Override
     public void run() {
-
+        try{
+            System.out.println("Waiting for connection");
+            this.serverSocket.accept();
+            System.out.println("Connection accepted");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
