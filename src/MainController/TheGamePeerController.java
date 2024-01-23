@@ -1,6 +1,7 @@
 package MainController;
 
 import Communication.CommunicationController;
+import Communication.Interlocutors.Peer;
 import Game.TheGameController;
 
 import java.util.ArrayList;

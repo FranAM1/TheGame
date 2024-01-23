@@ -1,26 +1,59 @@
 // ClientConnector.java
 package Communication;
 
+import java.io.IOException;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ClientConnector implements Runnable {
     private Socket socket;
     private int port;
-    private String address;
+    private String id;
 
-    public ClientConnector(String address, int port) {
-        this.address = address;
-        this.port = port;
+    private Scanner sc;
+
+    public ClientConnector(String id, int port) {
+        sc = new Scanner(System.in);
+        try {
+            this.socket = new Socket(id, port);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void run() {
+        String message = sc.nextLine();
+
         try {
-            System.out.println("Connecting to " + this.address + " on port " + this.port);
-            this.socket = new Socket(this.address, this.port);
-            System.out.println("Connected to " + this.address + " on port " + this.port);
-        } catch (Exception e) {
+            this.socket.getOutputStream().write(message.getBytes());
+            this.socket.getOutputStream().flush();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

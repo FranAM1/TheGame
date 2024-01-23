@@ -17,6 +17,14 @@ public class ServerConnector implements Runnable {
         }
     }
 
+    public void killSocket() {
+        try {
+            this.serverSocket.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void run() {
         try{
