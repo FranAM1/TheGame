@@ -1,5 +1,6 @@
 package Game;
 
+import DTO.CoordinatesDTO;
 import DTO.VectorDTO;
 import Game.VisualObjects.VO;
 import Game.VisualObjectsDynamic.VODynamic;
@@ -19,8 +20,13 @@ public class TheGameModel {
         this.dimensionY = dimensionY;
     }
 
-    public void collideDetection(VO visualObject, VectorDTO newPosition){
-
+    public void collideDetection(VO visualObject, CoordinatesDTO newPosition){
+        VO otherVisualObject = checkForCollision(visualObject);
+        if (otherVisualObject != null){
+            controller.collideManagement(visualObject, otherVisualObject);
+        } else {
+            ((VODynamic)visualObject).setPosition(newPosition);
+        }
     }
 
     public VO checkForCollision(VO visualObject){

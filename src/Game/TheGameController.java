@@ -88,6 +88,8 @@ public class TheGameController extends JFrame implements MouseListener {
         }
 
         this.model.addVisualObject(ball);
+        Thread thread = new Thread(ball);
+        thread.start();
     }
 
     @Override

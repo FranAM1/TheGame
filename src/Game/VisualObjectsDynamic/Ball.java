@@ -33,7 +33,7 @@ public class Ball extends VODynamic {
 
     @Override
     public void nextMove() {
-        VectorDTO nextMove = calcNextMove();
+        CoordinatesDTO nextMove = calcNextMove();
         this.model.collideDetection(this, nextMove);
     }
 
@@ -42,19 +42,21 @@ public class Ball extends VODynamic {
         return new Hitbox(this.getPosition().getX(), this.getPosition().getY(), this.getRadius()*2, this.getRadius()*2);
     }
 
-    public VectorDTO calcNextMove(){
+    private CoordinatesDTO calcNextMove(){
         int x = this.getPosition().getX() + this.getVelocity().getX();
         int y = this.getPosition().getY() + this.getVelocity().getY();
 
-        return new VectorDTO(x, y);
+        return new CoordinatesDTO(x, y);
     }
 
     public void reboundX(){
         this.getVelocity().setX(this.getVelocity().getX() * -1);
+        this.setPosition(this.calcNextMove());
     }
 
     public void reboundY(){
         this.getVelocity().setY(this.getVelocity().getY() * -1);
+        this.setPosition(this.calcNextMove());
     }
 
     @Override
