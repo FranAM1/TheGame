@@ -1,4 +1,8 @@
 package Communication;
 
-public class Channel {
+public class Channel implements Runnable{
+    @Override
+    public void run() {
+
+    }
 }
