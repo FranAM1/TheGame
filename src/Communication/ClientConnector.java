@@ -1,17 +1,21 @@
 // ClientConnector.java
 package Communication;
 
+import Communication.Interlocutors.Interlocutor;
+
 import java.io.IOException;
 import java.net.Socket;
 
 public class ClientConnector implements Runnable {
     private Socket socket;
+    private CommunicationController cc;
     private int port;
     private String id;
 
-    public ClientConnector(String id, int port) {
+    public ClientConnector(String id, int port, CommunicationController cc) {
         this.port = port;
         this.id = id;
+        this.cc = cc;
     }
 
     @Override
@@ -20,6 +24,7 @@ public class ClientConnector implements Runnable {
             try {
                 socket = new Socket("localhost", port);
                 System.out.println("Client: connected to server");
+                cc.setSocketToChannel(socket);
             } catch (IOException e) {
                 System.out.println("Client: waiting for server");
                 try {

@@ -10,6 +10,7 @@ public class CommunicationController {
     ArrayList<Channel> channels = new ArrayList<>();
 
     public CommunicationController(String ip, int port) {
+        channels.add(new Channel());
         createConnection(ip, port);
     }
 
@@ -18,11 +19,19 @@ public class CommunicationController {
             ServerConnector sc = new ServerConnector(port, this);
             new Thread(sc).start();
 
-            ClientConnector cc = new ClientConnector(id, port);
+            ClientConnector cc = new ClientConnector(id, port, this);
             new Thread(cc).start();
 
         }catch (Exception e){
             throw new RuntimeException(e);
+        }
+    }
+
+    public void setSocketToChannel(Socket socket){
+        for(Channel channel : channels){
+            if(channel.getSocket() == null){
+                channel.setSocket(socket);
+            }
         }
     }
 

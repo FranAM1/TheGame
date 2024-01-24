@@ -39,10 +39,7 @@ public class ServerConnector implements Runnable {
             System.out.println("Waiting for connection");
             this.clientSocket = this.serverSocket.accept();
             System.out.println("Connection accepted");
-
-            Channel channel = new Channel(clientSocket, 1000);
-            this.cc.getChannels().add(channel);
-            new Thread(channel).start();
+            cc.setSocketToChannel(clientSocket);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
