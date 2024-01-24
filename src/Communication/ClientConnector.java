@@ -3,7 +3,10 @@ package Communication;
 
 import Communication.Interlocutors.Interlocutor;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 public class ClientConnector implements Runnable {
@@ -25,6 +28,7 @@ public class ClientConnector implements Runnable {
                 socket = new Socket("localhost", port);
                 System.out.println("Client: connected to server");
                 cc.setSocketToChannel(socket);
+
             } catch (IOException e) {
                 System.out.println("Client: waiting for server");
                 try {
@@ -34,6 +38,8 @@ public class ClientConnector implements Runnable {
                 }
             }
         }
+
+
     }
 
     public Socket getSocket() {

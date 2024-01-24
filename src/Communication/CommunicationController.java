@@ -11,12 +11,13 @@ public class CommunicationController {
 
     public CommunicationController(String ip, int port) {
         channels.add(new Channel());
+
         createConnection(ip, port);
     }
 
     private void createConnection(String id, int port) {
         try{
-            ServerConnector sc = new ServerConnector(port, this);
+            ServerConnector sc = new ServerConnector(port+1, this);
             new Thread(sc).start();
 
             ClientConnector cc = new ClientConnector(id, port, this);
@@ -30,7 +31,8 @@ public class CommunicationController {
     public void setSocketToChannel(Socket socket){
         for(Channel channel : channels){
             if(channel.getSocket() == null){
-                channel.setSocket(socket);
+                channel.loadOutputInput(socket);
+                new Thread(channel).start();
             }
         }
     }
