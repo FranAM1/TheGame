@@ -6,10 +6,8 @@ import java.util.Scanner;
 
 public class Channel implements Runnable{
     private Socket socket;
-    private OutputStreamWriter os;
-    private InputStreamReader is;
-    private BufferedReader br;
-    private BufferedWriter bw;
+    private PrintWriter writer;
+    private BufferedReader reader;
     private long lastCheckTime;
     private HealthChecker healthChecker;
     private Scanner sc;
@@ -27,31 +25,31 @@ public class Channel implements Runnable{
 
     public void loadOutputInput(Socket socket) {
         try {
-            this.os = new OutputStreamWriter(socket.getOutputStream());
-            this.is = new InputStreamReader(socket.getInputStream());
-
-            this.br = new BufferedReader(this.is);
-            this.bw = new BufferedWriter(this.os);
+            this.writer = new PrintWriter(socket.getOutputStream());
+            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+
     public boolean ping() {
-        try {
-            this.os.write(0);
-            this.os.flush();
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        return false;
     }
 
 
     @Override
     public void run() {
         while (true) {
+            this.writer.println("Hello from client");
+            this.writer.flush();
 
+            try {
+                String message = this.reader.readLine();
+                System.out.println("Message received: " + message);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -61,38 +59,6 @@ public class Channel implements Runnable{
 
     public void setSocket(Socket socket) {
         this.socket = socket;
-    }
-
-    public OutputStreamWriter getOs() {
-        return os;
-    }
-
-    public void setOs(OutputStreamWriter os) {
-        this.os = os;
-    }
-
-    public InputStreamReader getIs() {
-        return is;
-    }
-
-    public void setIs(InputStreamReader is) {
-        this.is = is;
-    }
-
-    public BufferedReader getBr() {
-        return br;
-    }
-
-    public void setBr(BufferedReader br) {
-        this.br = br;
-    }
-
-    public BufferedWriter getBw() {
-        return bw;
-    }
-
-    public void setBw(BufferedWriter bw) {
-        this.bw = bw;
     }
 
     public Scanner getSc() {

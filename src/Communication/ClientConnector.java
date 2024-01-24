@@ -21,7 +21,12 @@ public class ClientConnector implements Runnable {
                 socket = new Socket("localhost", port);
                 System.out.println("Client: connected to server");
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Client: waiting for server");
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
