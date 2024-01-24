@@ -10,31 +10,27 @@ public class CommunicationController {
     ArrayList<Channel> channels = new ArrayList<>();
 
     public CommunicationController(String ip, int port) {
-        this.loadChannels(ip, port);
+        createConnection(ip, port);
     }
 
-    private void loadChannels(String ip, int port) {
-        Socket socket = this.createConnection(ip, port);
-
-        Channel channel = new Channel(socket, 1000);
-        this.channels.add(channel);
-        new Thread(channel).start();
-    }
-
-    private Socket createConnection(String id, int port) {
-        Socket socket = null;
+    private void createConnection(String id, int port) {
         try{
-            ServerConnector sc = new ServerConnector(port);
+            ServerConnector sc = new ServerConnector(port, this);
             new Thread(sc).start();
 
             ClientConnector cc = new ClientConnector(id, port);
             new Thread(cc).start();
 
-            socket = cc.getSocket();
         }catch (Exception e){
             throw new RuntimeException(e);
         }
+    }
 
-        return socket;
+    public ArrayList<Channel> getChannels() {
+        return channels;
+    }
+
+    public void setChannels(ArrayList<Channel> channels) {
+        this.channels = channels;
     }
 }

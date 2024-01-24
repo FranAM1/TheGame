@@ -3,33 +3,26 @@ package Communication;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class ClientConnector implements Runnable {
     private Socket socket;
     private int port;
     private String id;
 
-    private Scanner sc;
-
     public ClientConnector(String id, int port) {
-        sc = new Scanner(System.in);
-        try {
-            this.socket = new Socket(id, port);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.port = port;
+        this.id = id;
     }
 
     @Override
     public void run() {
-        String message = sc.nextLine();
-
-        try {
-            this.socket.getOutputStream().write(message.getBytes());
-            this.socket.getOutputStream().flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        while(socket == null) {
+            try {
+                socket = new Socket("localhost", port);
+                System.out.println("Client: connected to server");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
