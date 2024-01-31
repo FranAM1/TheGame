@@ -39,6 +39,9 @@ public class TheGameModel {
         }
         return null;
     }
+    public void killVisualObject(VO visualObject){
+        visualObjects.remove(visualObject);
+    }
 
     public void addVisualObject(VO visualObject) {
         visualObjects.add(visualObject);

@@ -9,7 +9,6 @@ import Game.VisualObjects.VO;
 public abstract class VODynamic extends VO implements Runnable{
     private CoordinatesDTO position;
     private VectorDTO velocity;
-
     private VectorDTO acceleration;
     private VODState state;
 

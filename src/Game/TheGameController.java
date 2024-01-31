@@ -8,6 +8,7 @@ import Enums.WallLocation;
 import Game.VisualObjects.Gate;
 import Game.VisualObjectsDynamic.Ball;
 import Game.VisualObjects.VO;
+import Game.VisualObjectsDynamic.VODynamic;
 import MainController.TheGamePeerController;
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +25,7 @@ public class TheGameController extends JFrame implements MouseListener {
     private static final int wallSpace = 5;
 
     public TheGameController(TheGamePeerController peerController) {
-        this.rules = new TheGameRules();
+        this.rules = new TheGameRules(this);
         this.peerController = peerController;
         this.model = new TheGameModel(width, height, this);
         this.viewer = new TheGameViewer(model, width, height);
@@ -40,6 +41,10 @@ public class TheGameController extends JFrame implements MouseListener {
         this.viewer.addMouseListener(this);
         Thread thread = new Thread(viewer);
         thread.start();
+    }
+
+    public void sendVisualObject(VODynamic visualObject) {
+        peerController.sendVisualObject(visualObject);
     }
 
     public void collideManagement(VO v1, VO v2){

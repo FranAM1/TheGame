@@ -3,6 +3,7 @@ package MainController;
 import Communication.CommunicationController;
 import Communication.Interlocutors.Peer;
 import Game.TheGameController;
+import Game.VisualObjectsDynamic.VODynamic;
 
 import java.util.ArrayList;
 
@@ -22,7 +23,7 @@ public class TheGamePeerController {
         this.ip = "localhost";
         this.port = 12345;
         this.fileName = "config.ini";
-        // this.gameController = new TheGameController(this);
+        this.gameController = new TheGameController(this);
         this.commsController = new CommunicationController(ip, port);
         this.peers = new ArrayList<>();
 
@@ -32,6 +33,10 @@ public class TheGamePeerController {
         TheGamePeerController mainController = new TheGamePeerController();
 
         mainController.run();
+    }
+
+    public void sendVisualObject(VODynamic visualObject) {
+
     }
 
 
