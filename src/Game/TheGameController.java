@@ -1,10 +1,10 @@
 package Game;
 
+import DTO.AppFrame;
 import DTO.CoordinatesDTO;
+import DTO.DataFrame;
 import DTO.VectorDTO;
-import Enums.GateState;
-import Enums.VODState;
-import Enums.WallLocation;
+import Enums.*;
 import Game.VisualObjects.Gate;
 import Game.VisualObjectsDynamic.Ball;
 import Game.VisualObjects.VO;
@@ -36,6 +36,12 @@ public class TheGameController extends JFrame implements MouseListener {
         this.pack();
     }
 
+    public void sendDataFrame(AppFrame appFrame) {
+        DataFrame dataFrame = new DataFrame(DataFrameType.APPLICATION_FRAME, appFrame);
+
+        this.peerController.sendDataFrame(dataFrame);
+    }
+
     private void configureCanvas(){
         this.add(viewer);
         this.viewer.addMouseListener(this);
@@ -43,8 +49,8 @@ public class TheGameController extends JFrame implements MouseListener {
         thread.start();
     }
 
-    public void sendVisualObject(VODynamic visualObject) {
-        peerController.sendVisualObject(visualObject);
+    public void killVisualObjectDynamic(VODynamic visualObjectDynamic){
+        model.killVisualObjectDynamic(visualObjectDynamic);
     }
 
     public void collideManagement(VO v1, VO v2){
@@ -61,7 +67,7 @@ public class TheGameController extends JFrame implements MouseListener {
         CoordinatesDTO westPosition = new CoordinatesDTO(0, 0);
 
         Gate northGate = new Gate(GateState.CLOSED, WallLocation.NORTH, fullWidth, northPosition);
-        Gate eastGate = new Gate(GateState.CLOSED, WallLocation.EAST, fullHeight, eastPosition);
+        Gate eastGate = new Gate(GateState.OPEN, WallLocation.EAST, fullHeight, eastPosition);
         Gate southGate = new Gate(GateState.CLOSED, WallLocation.SOUTH, fullWidth, southPosition);
         Gate westGate = new Gate(GateState.CLOSED, WallLocation.WEST, fullHeight, westPosition);
 

@@ -39,8 +39,9 @@ public class TheGameModel {
         }
         return null;
     }
-    public void killVisualObject(VO visualObject){
-        visualObjects.remove(visualObject);
+    public void killVisualObjectDynamic(VODynamic visualObjectDynamic){
+        visualObjectDynamic.kill();
+        visualObjects.remove(visualObjectDynamic);
     }
 
     public void addVisualObject(VO visualObject) {

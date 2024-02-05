@@ -16,6 +16,7 @@ public class ServerConnector implements Runnable {
 
     private PeerIdentificator pi;
 
+
     public ServerConnector(int port, CommunicationController cc) {
         this.cc = cc;
         try {
@@ -25,13 +26,6 @@ public class ServerConnector implements Runnable {
         }
     }
 
-    public void killSocket() {
-        try {
-            this.serverSocket.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Override
     public void run() {

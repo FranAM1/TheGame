@@ -1,5 +1,7 @@
 package Game;
 
+import DTO.AppFrame;
+import Enums.AppFrameType;
 import Enums.GateState;
 import Enums.WallLocation;
 import Game.VisualObjects.Gate;
@@ -21,7 +23,9 @@ public class TheGameRules {
             Gate wall = (Gate) v2;
 
             if (wall.getGateState() == GateState.OPEN){
-                openGate(wall, ball);
+                AppFrame appFrame = new AppFrame(AppFrameType.BALL, ball);
+                this.controller.killVisualObjectDynamic(ball);
+                this.controller.sendDataFrame(appFrame);
             }else{
                 bounceWall(wall, ball);
             }
@@ -34,21 +38,6 @@ public class TheGameRules {
             ball1.reboundY();
             ball2.reboundX();
             ball2.reboundY();
-        }
-    }
-
-    private void openGate(Gate gate, Ball ball){
-        Ball ballToSend = ball;
-
-        switch (gate.getLocation()) {
-            case NORTH:
-                break;
-            case SOUTH:
-                break;
-            case EAST:
-                break;
-            case WEST:
-                break;
         }
     }
 

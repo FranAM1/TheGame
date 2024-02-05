@@ -2,6 +2,10 @@ package MainController;
 
 import Communication.CommunicationController;
 import Communication.Interlocutors.Peer;
+import DTO.AppFrame;
+import DTO.DataFrame;
+import Enums.AppFrameType;
+import Enums.DataFrameType;
 import Game.TheGameController;
 import Game.VisualObjectsDynamic.VODynamic;
 
@@ -35,8 +39,12 @@ public class TheGamePeerController {
         mainController.run();
     }
 
-    public void sendVisualObject(VODynamic visualObject) {
+    public void manageAppFrame(AppFrame appFrame){
 
+    }
+
+    public void sendDataFrame(DataFrame dataFrame) {
+        System.out.println("Sending data frame");
     }
 
 

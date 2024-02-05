@@ -22,6 +22,10 @@ public abstract class VODynamic extends VO implements Runnable{
 
     public abstract void nextMove();
 
+    public void kill(){
+        this.setState(VODState.DEAD);
+    }
+
     public CoordinatesDTO getPosition() {
         return position;
     }
