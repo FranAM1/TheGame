@@ -9,65 +9,39 @@ import java.util.Scanner;
 
 public class Channel implements Runnable{
     private Socket socket;
-    private PrintWriter writer;
-    private BufferedReader reader;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+
     private Interlocutor interlocutor;
     private long lastCheckTime;
     private HealthChecker healthChecker;
 
-    public Channel() {
+    public Channel(Interlocutor interlocutor) {
         socket = null;
         this.lastCheckTime = System.currentTimeMillis();
+        this.interlocutor = interlocutor;
     }
-
-    public void loadOutputInput(Socket socket) {
-        this.socket = socket;
-        try {
-            writer = new PrintWriter(socket.getOutputStream(), true);
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void sendMessage(String message) {
-        writer.println(message);
-    }
-
-    public String getMessage() {
-        try {
-            return reader.readLine();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void handleInput() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (true) {
-                if (scanner.hasNextLine()) {
-                    String inputMessage = scanner.nextLine();
-                    this.sendMessage(inputMessage);
-                }
-            }
-        }
-    }
-
 
     public boolean ping() {
         return false;
     }
 
+    public void sendDataFrame(Object dataFrame) {
+        try {
+            objectOutputStream.writeObject(dataFrame);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void run() {
-        new Thread(this::handleInput).start();
-        while (true) {
-            String message = getMessage();
-            if (message != null) {
-                System.out.println("Message received: "+message);
-            }
-        }
+
+    }
+
+    public int getPort() {
+        return socket.getPort();
     }
 
     public Socket getSocket() {
@@ -76,6 +50,12 @@ public class Channel implements Runnable{
 
     public void setSocket(Socket socket) {
         this.socket = socket;
+        try {
+            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectInputStream = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public long getLastCheckTime() {
@@ -92,5 +72,13 @@ public class Channel implements Runnable{
 
     public void setHealthChecker(HealthChecker healthChecker) {
         this.healthChecker = healthChecker;
+    }
+
+    public Interlocutor getInterlocutor() {
+        return interlocutor;
+    }
+
+    public void setInterlocutor(Interlocutor interlocutor) {
+        this.interlocutor = interlocutor;
     }
 }

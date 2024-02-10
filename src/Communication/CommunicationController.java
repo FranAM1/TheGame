@@ -2,6 +2,8 @@
 package Communication;
 
 import Communication.Channels.Channel;
+import Communication.Interlocutors.Interlocutor;
+import DTO.DataFrame;
 
 import java.net.Socket;
 import java.util.ArrayList;
@@ -9,36 +11,34 @@ import java.util.ArrayList;
 public class CommunicationController {
     ArrayList<Channel> channels = new ArrayList<>();
 
-    public CommunicationController(String ip, int port) {
-        channels.add(new Channel());
 
-        createConnection(ip, port);
-    }
+    public CommunicationController() {
 
-    private void createConnection(String id, int port) {
-        try{
-            ServerConnector sc = new ServerConnector(port+1, this);
-            new Thread(sc).start();
-
-            ClientConnector cc = new ClientConnector(id, port, this);
-            new Thread(cc).start();
-
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
     }
 
     public void setSocketToChannel(Socket socket){
-        for(Channel channel : channels){
-            if(channel.getSocket() == null){
-                channel.loadOutputInput(socket);
-                new Thread(channel).start();
+        Interlocutor interlocutorSocket = new Interlocutor(socket.getInetAddress().toString(), socket.getPort());
+
+        for (Channel channel : channels) {
+            if (channel.getInterlocutor().equals(interlocutorSocket)) {
+                channel.setSocket(socket);
             }
         }
     }
 
     public ArrayList<Channel> getChannels() {
         return channels;
+    }
+
+    public void sendDataFrame(DataFrame dataFrame) {
+        for (Channel channel : channels) {
+            channel.sendDataFrame(dataFrame);
+        }
+    }
+
+    public void addChannel(Interlocutor interlocutor){
+        Channel channel = new Channel(interlocutor);
+        channels.add(channel);
     }
 
     public void setChannels(ArrayList<Channel> channels) {

@@ -3,6 +3,7 @@ package Game;
 import DTO.AppFrame;
 import Enums.AppFrameType;
 import Enums.GateState;
+import Enums.PeerLocation;
 import Enums.WallLocation;
 import Game.VisualObjects.Gate;
 import Game.VisualObjectsDynamic.Ball;
@@ -23,9 +24,8 @@ public class TheGameRules {
             Gate wall = (Gate) v2;
 
             if (wall.getGateState() == GateState.OPEN){
-                AppFrame appFrame = new AppFrame(AppFrameType.BALL, ball);
                 this.controller.killVisualObjectDynamic(ball);
-                this.controller.sendDataFrame(appFrame);
+                openGate(ball, wall);
             }else{
                 bounceWall(wall, ball);
             }
@@ -38,6 +38,23 @@ public class TheGameRules {
             ball1.reboundY();
             ball2.reboundX();
             ball2.reboundY();
+        }
+    }
+
+    private void openGate(VO vo, Gate gate){
+        switch (gate.getLocation()) {
+            case NORTH:
+                this.controller.sendVisualObject(vo, PeerLocation.NORTH);
+                break;
+            case SOUTH:
+                this.controller.sendVisualObject(vo, PeerLocation.SOUTH);
+                break;
+            case EAST:
+                this.controller.sendVisualObject(vo, PeerLocation.EAST);
+                break;
+            case WEST:
+                this.controller.sendVisualObject(vo, PeerLocation.WEST);
+                break;
         }
     }
 
