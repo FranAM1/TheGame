@@ -37,7 +37,7 @@ public class TheGameController extends JFrame implements MouseListener {
     }
 
     public void sendVisualObject(VO visualObject, PeerLocation peerLocation) {
-        this.peerController.sendDataFrame(visualObject, peerLocation);
+        this.peerController.sendAppFrame(visualObject, peerLocation);
     }
 
     private void configureCanvas(){

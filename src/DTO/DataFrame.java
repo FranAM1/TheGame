@@ -11,4 +11,8 @@ public class DataFrame {
         this.type = type;
         this.object = object;
     }
+
+    public DataFrameType getType() {
+        return type;
+    }
 }

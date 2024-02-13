@@ -1,7 +1,10 @@
 package Communication.Channels;
 
 import Communication.Interlocutors.Interlocutor;
+import DTO.DataFrame;
+import Enums.DataFrameType;
 
+import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.Socket;
 import java.nio.Buffer;
@@ -26,7 +29,8 @@ public class Channel implements Runnable{
         return false;
     }
 
-    public void sendDataFrame(Object dataFrame) {
+    public void sendObject(Object object) {
+        DataFrame dataFrame = new DataFrame(DataFrameType.APPLICATION_FRAME, object);
         try {
             objectOutputStream.writeObject(dataFrame);
         } catch (IOException e) {
@@ -37,7 +41,18 @@ public class Channel implements Runnable{
 
     @Override
     public void run() {
-
+        while(socket != null){
+            try {
+                if (objectInputStream.readObject() instanceof DataFrame){
+                    DataFrame dataFrame = (DataFrame) objectInputStream.readObject();
+                    if(dataFrame.getType() == DataFrameType.APPLICATION_FRAME){
+                        System.out.println("Received application frame");
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public int getPort() {

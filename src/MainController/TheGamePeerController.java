@@ -10,6 +10,7 @@ import Enums.AppFrameType;
 import Enums.DataFrameType;
 import Enums.PeerLocation;
 import Game.TheGameController;
+import Game.VisualObjects.VO;
 import Game.VisualObjectsDynamic.VODynamic;
 
 import java.util.ArrayList;
@@ -38,6 +39,23 @@ public class TheGamePeerController {
         createChannels();
     }
 
+    private Peer findPeerByLocation(PeerLocation peerLocation){
+        for(Peer peer : peers){
+            if(peer.getLocation() == peerLocation){
+                return peer;
+            }
+        }
+        return null;
+    }
+
+    public void sendAppFrame(VO visualObject, PeerLocation peerLocation) {
+        Interlocutor interlocutorToSend = findPeerByLocation(peerLocation);
+
+        AppFrame appFrame = new AppFrame(AppFrameType.BALL, visualObject);
+
+        commsController.sendObject(appFrame, interlocutorToSend);
+    }
+
     public void createChannels(){
         for(Peer peer : peers){
             Interlocutor interlocutor = new Interlocutor(peer.getIp(), peer.getPort());
@@ -53,12 +71,6 @@ public class TheGamePeerController {
         TheGamePeerController mainController = new TheGamePeerController();
 
         mainController.run();
-    }
-
-
-
-    public void sendDataFrame(DataFrame dataFrame) {
-        System.out.println("Sending data frame");
     }
 
 

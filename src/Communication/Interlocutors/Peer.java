@@ -17,4 +17,6 @@ public class Peer extends Interlocutor {
     public void setLocation(PeerLocation location) {
         this.location = location;
     }
+
+
 }

@@ -4,12 +4,14 @@ package Communication;
 import Communication.Channels.Channel;
 import Communication.Interlocutors.Interlocutor;
 import DTO.DataFrame;
+import Enums.PeerLocation;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CommunicationController {
-    ArrayList<Channel> channels = new ArrayList<>();
+    HashMap<Interlocutor, Channel> channels = new HashMap<>();
 
 
     public CommunicationController() {
@@ -18,30 +20,21 @@ public class CommunicationController {
 
     public void setSocketToChannel(Socket socket){
         Interlocutor interlocutorSocket = new Interlocutor(socket.getInetAddress().toString(), socket.getPort());
-
-        for (Channel channel : channels) {
-            if (channel.getInterlocutor().equals(interlocutorSocket)) {
-                channel.setSocket(socket);
-            }
-        }
+        Channel channel = channels.get(interlocutorSocket);
+        channel.setSocket(socket);
     }
 
-    public ArrayList<Channel> getChannels() {
-        return channels;
-    }
-
-    public void sendDataFrame(DataFrame dataFrame) {
-        for (Channel channel : channels) {
-            channel.sendDataFrame(dataFrame);
+    public void sendObject(Object object, Interlocutor interlocutor) {
+        try{
+            channels.get(interlocutor).sendObject(object);
+        }catch (Exception e){
+            System.out.println("Error sending object");
         }
     }
 
     public void addChannel(Interlocutor interlocutor){
         Channel channel = new Channel(interlocutor);
-        channels.add(channel);
-    }
-
-    public void setChannels(ArrayList<Channel> channels) {
-        this.channels = channels;
+        channels.put(interlocutor, channel);
+        System.out.println(channels.size());
     }
 }
