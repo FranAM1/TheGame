@@ -33,6 +33,7 @@ public class Channel implements Runnable{
         DataFrame dataFrame = new DataFrame(DataFrameType.APPLICATION_FRAME, object);
         try {
             objectOutputStream.writeObject(dataFrame);
+            System.out.println("Sent application frame");
         } catch (IOException e) {
             e.printStackTrace();
         }

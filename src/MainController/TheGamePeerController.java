@@ -1,9 +1,11 @@
 package MainController;
 
 import Communication.Channels.Channel;
+import Communication.ClientConnector;
 import Communication.CommunicationController;
 import Communication.Interlocutors.Interlocutor;
 import Communication.Interlocutors.Peer;
+import Communication.ServerConnector;
 import DTO.AppFrame;
 import DTO.DataFrame;
 import Enums.AppFrameType;
@@ -33,7 +35,7 @@ public class TheGamePeerController {
     }
 
     public void createInterlocutors(){
-        Peer peer = new Peer("172.16.131.188", 10001, PeerLocation.EAST);
+        Peer peer = new Peer("127.0.0.1", 10000, PeerLocation.EAST);
         peers.add(peer);
 
         createChannels();
@@ -61,6 +63,14 @@ public class TheGamePeerController {
             Interlocutor interlocutor = new Interlocutor(peer.getIp(), peer.getPort());
             this.commsController.addChannel(interlocutor);
         }
+
+        ClientConnector clientConnector = new ClientConnector("192.168.0.10", 10001, this.commsController);
+        Thread clientConnectorThread = new Thread(clientConnector);
+        clientConnectorThread.start();
+
+        ServerConnector serverConnector = new ServerConnector(10000, this.commsController);
+        Thread serverConnectorThread = new Thread(serverConnector);
+        serverConnectorThread.start();
     }
 
     public void manageAppFrame(AppFrame appFrame){

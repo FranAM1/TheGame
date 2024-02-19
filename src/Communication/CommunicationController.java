@@ -28,13 +28,13 @@ public class CommunicationController {
         try{
             channels.get(interlocutor).sendObject(object);
         }catch (Exception e){
-            System.out.println("Error sending object");
+            System.out.println("Error sending object: ");
+            e.printStackTrace();
         }
     }
 
     public void addChannel(Interlocutor interlocutor){
         Channel channel = new Channel(interlocutor);
         channels.put(interlocutor, channel);
-        System.out.println(channels.size());
     }
 }
