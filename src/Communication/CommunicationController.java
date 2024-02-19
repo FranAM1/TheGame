@@ -19,7 +19,8 @@ public class CommunicationController {
     }
 
     public void setSocketToChannel(Socket socket){
-        Interlocutor interlocutorSocket = new Interlocutor(socket.getInetAddress().toString(), socket.getPort());
+        String ip = socket.getInetAddress().toString().substring(1);
+        Interlocutor interlocutorSocket = new Interlocutor(ip, socket.getLocalPort());
         Channel channel = channels.get(interlocutorSocket);
         channel.setSocket(socket);
     }

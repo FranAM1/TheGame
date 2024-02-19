@@ -25,10 +25,7 @@ public class ClientConnector implements Runnable {
     public void run() {
         while(socket == null) {
             try {
-                socket = new Socket("localhost", port);
-                System.out.println("Client: connected to server");
-                cc.setSocketToChannel(socket);
-
+                socket = new Socket(id, port);
             } catch (IOException e) {
                 System.out.println("Client: waiting for server");
                 try {

@@ -8,9 +8,10 @@ import Game.VisualObjects.Hitbox;
 import Game.VisualObjects.VO;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Ball extends VODynamic {
-    private TheGameModel model;
+public class Ball extends VODynamic implements Serializable{
+    private transient TheGameModel model;
     private int radius;
     private Color color;
     private float mass;

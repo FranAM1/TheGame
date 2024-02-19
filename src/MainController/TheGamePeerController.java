@@ -26,7 +26,10 @@ public class TheGamePeerController {
 
     private ArrayList<Peer> peers;
 
-    public TheGamePeerController() {
+    private String[] args;
+
+    public TheGamePeerController(String[] args) {
+        this.args = args;
         this.fileName = "config.ini";
         this.gameController = new TheGameController(this);
         this.commsController = new CommunicationController();
@@ -35,7 +38,7 @@ public class TheGamePeerController {
     }
 
     public void createInterlocutors(){
-        Peer peer = new Peer("127.0.0.1", 10000, PeerLocation.EAST);
+        Peer peer = new Peer("127.0.0.1", Integer.parseInt(args[0]), PeerLocation.EAST);
         peers.add(peer);
 
         createChannels();
@@ -64,12 +67,14 @@ public class TheGamePeerController {
             this.commsController.addChannel(interlocutor);
         }
 
-        ClientConnector clientConnector = new ClientConnector("192.168.0.10", 10001, this.commsController);
+        ClientConnector clientConnector = new ClientConnector("127.0.0.1", Integer.parseInt(args[1]), this.commsController);
         Thread clientConnectorThread = new Thread(clientConnector);
+        clientConnectorThread.setName("ClientConnector");
         clientConnectorThread.start();
 
-        ServerConnector serverConnector = new ServerConnector(10000, this.commsController);
+        ServerConnector serverConnector = new ServerConnector(Integer.parseInt(args[0]), this.commsController);
         Thread serverConnectorThread = new Thread(serverConnector);
+        serverConnectorThread.setName("ServerConnector");
         serverConnectorThread.start();
     }
 
@@ -78,7 +83,7 @@ public class TheGamePeerController {
     }
 
     public static void main(String[] args) {
-        TheGamePeerController mainController = new TheGamePeerController();
+        TheGamePeerController mainController = new TheGamePeerController(args);
 
         mainController.run();
     }

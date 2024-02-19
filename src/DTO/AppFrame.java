@@ -3,7 +3,9 @@ package DTO;
 import Enums.AppFrameType;
 import Enums.DataFrameType;
 
-public class AppFrame {
+import java.io.Serializable;
+
+public class AppFrame implements Serializable {
     private AppFrameType type;
 
     private Object object;

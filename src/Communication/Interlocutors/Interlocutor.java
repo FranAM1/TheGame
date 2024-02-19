@@ -12,12 +12,13 @@ public class Interlocutor {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if(o instanceof Interlocutor){
-            Interlocutor interlocutor = (Interlocutor) o;
-            return interlocutor.getIp().equals(this.getIp()) && interlocutor.getPort() == this.getPort();
+    public boolean equals(Object object) {
+        if (object instanceof Interlocutor){
+            Interlocutor interlocutor = (Interlocutor) object;
+            return interlocutor.getIp().equals(this.ip) && interlocutor.getPort() == this.port;
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override

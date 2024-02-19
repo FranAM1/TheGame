@@ -43,6 +43,7 @@ public class Channel implements Runnable{
     @Override
     public void run() {
         while(socket != null){
+            System.out.println("Waiting for object");
             try {
                 if (objectInputStream.readObject() instanceof DataFrame){
                     DataFrame dataFrame = (DataFrame) objectInputStream.readObject();
@@ -67,9 +68,10 @@ public class Channel implements Runnable{
     public void setSocket(Socket socket) {
         this.socket = socket;
         try {
-            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
         } catch (IOException e) {
+            System.out.println("Error creating output and input streams");
             e.printStackTrace();
         }
     }
