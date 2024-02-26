@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommunicationController {
-    HashMap<Interlocutor, Channel> channels = new HashMap<>();
+    HashMap<String, Channel> channels = new HashMap<>();
 
 
     public CommunicationController() {
@@ -19,15 +19,16 @@ public class CommunicationController {
     }
 
     public void setSocketToChannel(Socket socket){
-        String ip = socket.getInetAddress().toString().substring(1);
-        Interlocutor interlocutorSocket = new Interlocutor(ip, socket.getLocalPort());
-        Channel channel = channels.get(interlocutorSocket);
+        String ip = socket.getInetAddress().getHostAddress();
+        Channel channel = channels.get(ip);
         channel.setSocket(socket);
+        Thread thread = new Thread(channel);
+        thread.start();
     }
 
     public void sendObject(Object object, Interlocutor interlocutor) {
         try{
-            channels.get(interlocutor).sendObject(object);
+            channels.get(interlocutor.getIp()).sendObject(object);
         }catch (Exception e){
             System.out.println("Error sending object: ");
             e.printStackTrace();
@@ -36,6 +37,6 @@ public class CommunicationController {
 
     public void addChannel(Interlocutor interlocutor){
         Channel channel = new Channel(interlocutor);
-        channels.put(interlocutor, channel);
+        channels.put(interlocutor.getIp(), channel);
     }
 }

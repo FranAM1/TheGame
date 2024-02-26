@@ -11,21 +11,6 @@ public class Interlocutor {
         this.port = port;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof Interlocutor){
-            Interlocutor interlocutor = (Interlocutor) object;
-            return interlocutor.getIp().equals(this.ip) && interlocutor.getPort() == this.port;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(ip, port);
-    }
-
     public String getIp() {
         return this.ip;
     }

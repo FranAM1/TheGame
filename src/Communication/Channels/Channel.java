@@ -33,8 +33,10 @@ public class Channel implements Runnable{
         DataFrame dataFrame = new DataFrame(DataFrameType.APPLICATION_FRAME, object);
         try {
             objectOutputStream.writeObject(dataFrame);
-            System.out.println("Sent application frame");
+            objectOutputStream.flush();
+            System.out.println("Object sent");
         } catch (IOException e) {
+            System.out.println("Error sending object");
             e.printStackTrace();
         }
     }
@@ -43,16 +45,22 @@ public class Channel implements Runnable{
     @Override
     public void run() {
         while(socket != null){
-            System.out.println("Waiting for object");
-            try {
-                if (objectInputStream.readObject() instanceof DataFrame){
-                    DataFrame dataFrame = (DataFrame) objectInputStream.readObject();
-                    if(dataFrame.getType() == DataFrameType.APPLICATION_FRAME){
-                        System.out.println("Received application frame");
+            try{
+                Object readObject =  objectInputStream.readObject();
+
+                if (readObject instanceof DataFrame) {
+                    DataFrame dataFrame = (DataFrame) readObject;
+                    switch (dataFrame.getType()) {
+                        case APPLICATION_FRAME:
+                            System.out.println("Received application frame");
+                            break;
+                        default:
+                            System.out.println("Unknown data frame type");
+                            break;
                     }
                 }
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+            }catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error reading object "+e.getMessage());
             }
         }
     }
@@ -70,6 +78,7 @@ public class Channel implements Runnable{
         try {
             this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
             this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Streams created");
         } catch (IOException e) {
             System.out.println("Error creating output and input streams");
             e.printStackTrace();
