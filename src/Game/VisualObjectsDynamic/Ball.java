@@ -10,7 +10,7 @@ import Game.VisualObjects.VO;
 import java.awt.*;
 import java.io.Serializable;
 
-public class Ball extends VODynamic implements Serializable{
+public class Ball extends VODynamic{
     private transient TheGameModel model;
     private int radius;
     private Color color;

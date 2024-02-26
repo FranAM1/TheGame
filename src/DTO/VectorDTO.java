@@ -1,6 +1,8 @@
 package DTO;
 
-public class VectorDTO {
+import java.io.Serializable;
+
+public class VectorDTO implements Serializable {
     private int x;
     private int y;
 
