@@ -5,5 +5,5 @@ public enum DataFrameType {
     FRAME_REFUSED,
     INTERNAL_INFO,
     KEEP_ALIVE,
-    KEEP_ALIVE_ACK,
+    KEEP_ALIVE_BACK,
 }

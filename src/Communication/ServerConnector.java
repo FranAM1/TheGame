@@ -2,6 +2,7 @@
 package Communication;
 
 import Communication.Channels.Channel;
+import Game.TheGameController;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,8 +14,6 @@ public class ServerConnector implements Runnable {
     private Socket clientSocket;
 
     private CommunicationController cc;
-
-    private PeerIdentificator pi;
 
 
     public ServerConnector(int port, CommunicationController cc) {
@@ -34,8 +33,13 @@ public class ServerConnector implements Runnable {
             this.clientSocket = this.serverSocket.accept();
             System.out.println("Connection accepted");
             cc.setSocketToChannel(clientSocket);
+            new Thread(new PeerIdentificator(this.clientSocket, this)).start();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public CommunicationController getCc() {
+        return cc;
     }
 }

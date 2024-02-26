@@ -1,6 +1,5 @@
 package MainController;
 
-import Communication.Channels.Channel;
 import Communication.ClientConnector;
 import Communication.CommunicationController;
 import Communication.Interlocutors.Interlocutor;
@@ -13,8 +12,6 @@ import Enums.DataFrameType;
 import Enums.PeerLocation;
 import Game.TheGameController;
 import Game.VisualObjects.VO;
-import Game.VisualObjectsDynamic.Ball;
-import Game.VisualObjectsDynamic.VODynamic;
 
 import java.util.ArrayList;
 
@@ -42,7 +39,7 @@ public class TheGamePeerController {
         Peer peer = new Peer("127.0.0.1", Integer.parseInt(args[0]), PeerLocation.EAST);
         peers.add(peer);
 
-        createChannels();
+        createClientServer();
     }
 
     private Peer findPeerByLocation(PeerLocation peerLocation){
@@ -63,18 +60,13 @@ public class TheGamePeerController {
         commsController.sendObject(dataFrame, interlocutorToSend);
     }
 
-    public void createChannels(){
-        for(Peer peer : peers){
-            Interlocutor interlocutor = new Interlocutor(peer.getIp(), peer.getPort());
-            this.commsController.addChannel(interlocutor);
-        }
-
-        ClientConnector clientConnector = new ClientConnector("127.0.0.1", Integer.parseInt(args[1]), this.commsController);
+    public void createClientServer(){
+        ClientConnector clientConnector = new ClientConnector(this.commsController);
         Thread clientConnectorThread = new Thread(clientConnector);
         clientConnectorThread.setName("ClientConnector");
         clientConnectorThread.start();
 
-        ServerConnector serverConnector = new ServerConnector(Integer.parseInt(args[0]), this.commsController);
+        ServerConnector serverConnector = new ServerConnector(this.commsController);
         Thread serverConnectorThread = new Thread(serverConnector);
         serverConnectorThread.setName("ServerConnector");
         serverConnectorThread.start();
@@ -110,5 +102,45 @@ public class TheGamePeerController {
                 e.printStackTrace();
             }
         }
+    }
+
+    public TheGameController getGameController() {
+        return gameController;
+    }
+
+    public void setGameController(TheGameController gameController) {
+        this.gameController = gameController;
+    }
+
+    public CommunicationController getCommsController() {
+        return commsController;
+    }
+
+    public void setCommsController(CommunicationController commsController) {
+        this.commsController = commsController;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public ArrayList<Peer> getPeers() {
+        return peers;
+    }
+
+    public void setPeers(ArrayList<Peer> peers) {
+        this.peers = peers;
+    }
+
+    public String[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(String[] args) {
+        this.args = args;
     }
 }

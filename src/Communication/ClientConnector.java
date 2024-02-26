@@ -12,32 +12,46 @@ import java.net.Socket;
 public class ClientConnector implements Runnable {
     private Socket socket;
     private CommunicationController cc;
-    private int port;
-    private String id;
 
-    public ClientConnector(String id, int port, CommunicationController cc) {
-        this.port = port;
-        this.id = id;
+    public ClientConnector(CommunicationController cc) {
         this.cc = cc;
     }
 
     @Override
     public void run() {
-        while(socket == null) {
+        while(true) {
+            this.socket = new Socket();
+            createConnection();
+
             try {
-                socket = new Socket(id, port);
-                cc.setSocketToChannel(socket);
-            } catch (IOException e) {
-                System.out.println("Client: waiting for server");
+                Thread.sleep(2000);
+            } catch (InterruptedException ex) {
+
+                throw new RuntimeException(ex);
+            }
+        }
+    }
+
+    public void createConnection() {
+        if (this.cc.getDownChannels() != null) {
+            for (int i = 0; i < this.cc.getDownChannels().size(); i++) {
                 try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
+
+                    System.out.println("Conectando como cliente al canal: " + i);
+                    this.socket = new Socket(this.cc.getDownChannels().get(i).getInterlocutor().getIp(), 10000);
+                    this.cc.addChannel(socket, i);
+                    System.out.println("Conexion como cliente establecida");
+                } catch (Exception e) {
+
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
+
+                        throw new RuntimeException(ex);
+                    }
                 }
             }
         }
-
-
     }
 
     public Socket getSocket() {

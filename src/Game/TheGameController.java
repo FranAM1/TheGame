@@ -65,7 +65,7 @@ public class TheGameController extends JFrame implements MouseListener {
         CoordinatesDTO westPosition = new CoordinatesDTO(0, 0);
 
         Gate northGate = new Gate(GateState.CLOSED, WallLocation.NORTH, fullWidth, northPosition);
-        Gate eastGate = new Gate(GateState.OPEN, WallLocation.EAST, fullHeight, eastPosition);
+        Gate eastGate = new Gate(GateState.CLOSED, WallLocation.EAST, fullHeight, eastPosition);
         Gate southGate = new Gate(GateState.CLOSED, WallLocation.SOUTH, fullWidth, southPosition);
         Gate westGate = new Gate(GateState.CLOSED, WallLocation.WEST, fullHeight, westPosition);
 
@@ -152,6 +152,7 @@ public class TheGameController extends JFrame implements MouseListener {
     public int getWallSpace() {
         return wallSpace;
     }
+
 
 
 

@@ -28,10 +28,6 @@ public class Channel implements Runnable{
         this.cc = cc;
     }
 
-    public boolean ping() {
-        return false;
-    }
-
     public void sendObject(Object object) {
         try {
             objectOutputStream.writeObject(object);
@@ -39,6 +35,21 @@ public class Channel implements Runnable{
             System.out.println("Object sent");
         } catch (IOException e) {
             System.out.println("Error sending object");
+            e.printStackTrace();
+        }
+    }
+
+    public void setSocket(Socket socket) {
+        this.socket = socket;
+        try {
+            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
+            System.out.println("Streams created");
+
+            this.healthChecker = new HealthChecker(10000, this);
+            new Thread(this.healthChecker).start();
+        } catch (IOException e) {
+            System.out.println("Error creating output and input streams");
             e.printStackTrace();
         }
     }
@@ -58,6 +69,14 @@ public class Channel implements Runnable{
                             AppFrame appFrame = (AppFrame) dataFrame.getObject();
                             this.cc.handleAppFrame(appFrame, this.interlocutor);
                             break;
+                        case KEEP_ALIVE:
+                            System.out.println("Ping recibido");
+                            this.sendPingBack();
+                            break;
+                        case KEEP_ALIVE_BACK:
+                            System.out.println("Ping recibido de vuelta");
+                            this.healthChecker.setKillSocket(false);
+                            break;
                         default:
                             System.out.println("Unknown data frame type");
                             break;
@@ -65,28 +84,56 @@ public class Channel implements Runnable{
                 }
             }catch (IOException | ClassNotFoundException e) {
                 System.out.println("Error reading object "+e.getMessage());
+                setDownChannel();
             }
         }
     }
 
-    public int getPort() {
-        return socket.getPort();
+    public void sendPing() {
+        try {
+            DataFrame data = new DataFrame(DataFrameType.KEEP_ALIVE, "Ping");
+            objectOutputStream.writeObject(data);
+            objectOutputStream.flush();
+            System.out.println("Ping send");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    public void sendPingBack() {
+        try {
+            DataFrame data = new DataFrame(DataFrameType.KEEP_ALIVE_BACK, "PingBack");
+            objectOutputStream.writeObject(data);
+            objectOutputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setDownChannel() {
+        try {
+            stopHealthChecker();
+            this.objectInputStream.close();
+            this.objectOutputStream.close();
+            this.socket.close();
+            this.socket = null;
+            System.out.println("Channel down");
+        } catch (IOException e) {
+            System.out.println("Error closing socket");
+            e.printStackTrace();
+        }
+    }
+
+    private void stopHealthChecker() {
+        if (this.healthChecker != null) {
+            this.healthChecker.stop();
+            healthChecker = null;
+        }
+    }
+
 
     public Socket getSocket() {
         return socket;
-    }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
-        try {
-            this.objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            this.objectInputStream = new ObjectInputStream(socket.getInputStream());
-            System.out.println("Streams created");
-        } catch (IOException e) {
-            System.out.println("Error creating output and input streams");
-            e.printStackTrace();
-        }
     }
 
     public long getLastCheckTime() {
