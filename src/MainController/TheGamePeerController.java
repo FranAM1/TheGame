@@ -57,8 +57,9 @@ public class TheGamePeerController {
         Interlocutor interlocutorToSend = findPeerByLocation(peerLocation);
 
         AppFrame appFrame = new AppFrame(AppFrameType.BALL, visualObject);
+        DataFrame dataFrame = new DataFrame(DataFrameType.APPLICATION_FRAME, appFrame);
 
-        commsController.sendObject(appFrame, interlocutorToSend);
+        commsController.sendObject(dataFrame, interlocutorToSend);
     }
 
     public void createChannels(){

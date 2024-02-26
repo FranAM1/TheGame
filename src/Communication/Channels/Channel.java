@@ -30,9 +30,8 @@ public class Channel implements Runnable{
     }
 
     public void sendObject(Object object) {
-        DataFrame dataFrame = new DataFrame(DataFrameType.APPLICATION_FRAME, object);
         try {
-            objectOutputStream.writeObject(dataFrame);
+            objectOutputStream.writeObject(object);
             objectOutputStream.flush();
             System.out.println("Object sent");
         } catch (IOException e) {
