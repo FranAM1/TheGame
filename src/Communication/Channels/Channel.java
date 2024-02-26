@@ -1,6 +1,8 @@
 package Communication.Channels;
 
+import Communication.CommunicationController;
 import Communication.Interlocutors.Interlocutor;
+import DTO.AppFrame;
 import DTO.DataFrame;
 import Enums.DataFrameType;
 
@@ -14,15 +16,16 @@ public class Channel implements Runnable{
     private Socket socket;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
-
+    private CommunicationController cc;
     private Interlocutor interlocutor;
     private long lastCheckTime;
     private HealthChecker healthChecker;
 
-    public Channel(Interlocutor interlocutor) {
+    public Channel(Interlocutor interlocutor, CommunicationController cc) {
         socket = null;
         this.lastCheckTime = System.currentTimeMillis();
         this.interlocutor = interlocutor;
+        this.cc = cc;
     }
 
     public boolean ping() {
@@ -52,6 +55,8 @@ public class Channel implements Runnable{
                     switch (dataFrame.getType()) {
                         case APPLICATION_FRAME:
                             System.out.println("Received application frame");
+                            AppFrame appFrame = (AppFrame) dataFrame.getObject();
+                            this.cc.handleAppFrame(appFrame, this.interlocutor);
                             break;
                         default:
                             System.out.println("Unknown data frame type");

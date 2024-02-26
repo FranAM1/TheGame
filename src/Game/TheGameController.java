@@ -81,6 +81,11 @@ public class TheGameController extends JFrame implements MouseListener {
         this.setVisible(true);
     }
 
+    public void manageAppFrame(AppFrame appFrame, PeerLocation peerLocation) {
+        VO visualObject = this.rules.handleAppFrame(appFrame, peerLocation);
+        model.addVisualObject(visualObject);
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -143,6 +148,12 @@ public class TheGameController extends JFrame implements MouseListener {
     public void setViewer(TheGameViewer viewer) {
         this.viewer = viewer;
     }
+
+    public int getWallSpace() {
+        return wallSpace;
+    }
+
+
 
 
 }

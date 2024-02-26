@@ -13,6 +13,7 @@ import Enums.DataFrameType;
 import Enums.PeerLocation;
 import Game.TheGameController;
 import Game.VisualObjects.VO;
+import Game.VisualObjectsDynamic.Ball;
 import Game.VisualObjectsDynamic.VODynamic;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class TheGamePeerController {
         this.args = args;
         this.fileName = "config.ini";
         this.gameController = new TheGameController(this);
-        this.commsController = new CommunicationController();
+        this.commsController = new CommunicationController(this);
         this.peers = new ArrayList<>();
         createInterlocutors();
     }
@@ -79,8 +80,18 @@ public class TheGamePeerController {
         serverConnectorThread.start();
     }
 
-    public void manageAppFrame(AppFrame appFrame){
+    public void manageAppFrame(AppFrame appFrame, Interlocutor interlocutor) {
+        Peer peer = findPeerByIp(interlocutor.getIp());
+        gameController.manageAppFrame(appFrame, peer.getLocation());
+    }
 
+    private Peer findPeerByIp(String ip){
+        for(Peer peer : peers){
+            if(peer.getIp().equals(ip)){
+                return peer;
+            }
+        }
+        return null;
     }
 
     public static void main(String[] args) {

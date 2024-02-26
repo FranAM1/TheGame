@@ -1,6 +1,8 @@
 package Game;
 
+import Communication.Interlocutors.Peer;
 import DTO.AppFrame;
+import DTO.CoordinatesDTO;
 import Enums.AppFrameType;
 import Enums.GateState;
 import Enums.PeerLocation;
@@ -39,6 +41,45 @@ public class TheGameRules {
             ball2.reboundX();
             ball2.reboundY();
         }
+    }
+
+    public VO handleAppFrame(AppFrame appFrame, PeerLocation peerLocation){
+        if (appFrame.getType() == AppFrameType.BALL){
+            Ball ball = (Ball) appFrame.getObject();
+            ball.setModel(this.controller.getModel());
+            ball.revive();
+            Thread thread = new Thread(ball);
+            thread.start();
+            return changePosition(ball, peerLocation, ball.getRadius(), ball.getRadius());
+        }
+        return null;
+    }
+
+    private VO changePosition(VODynamic vo, PeerLocation peerLocation, int objectWidth, int objectHeight){
+        int wallSpace = this.controller.getWallSpace();
+        switch (peerLocation){
+            case NORTH:
+                CoordinatesDTO newPosition = new CoordinatesDTO(vo.getPosition().getX(), 0+wallSpace+objectHeight);
+                vo.setPosition(newPosition);
+                break;
+            case SOUTH:
+                newPosition = new CoordinatesDTO(
+                        vo.getPosition().getX(),
+                        (int) (this.controller.getHeight() - vo.getHitbox().getHeight()) - wallSpace - objectHeight);
+                vo.setPosition(newPosition);
+                break;
+            case EAST:
+                newPosition = new CoordinatesDTO(
+                        (int) (this.controller.getWidth() - vo.getHitbox().getWidth()) - wallSpace - objectWidth,
+                        vo.getPosition().getY());
+                vo.setPosition(newPosition);
+                break;
+            case WEST:
+                newPosition = new CoordinatesDTO(0+wallSpace+objectWidth, vo.getPosition().getY());
+                vo.setPosition(newPosition);
+                break;
+        }
+        return vo;
     }
 
     private void openGate(VO vo, Gate gate){

@@ -18,4 +18,8 @@ public class DataFrame implements Serializable {
     public DataFrameType getType() {
         return type;
     }
+
+    public Object getObject() {
+        return object;
+    }
 }

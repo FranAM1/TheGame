@@ -14,4 +14,12 @@ public class AppFrame implements Serializable {
         this.type = type;
         this.object = object;
     }
+
+    public AppFrameType getType() {
+        return type;
+    }
+
+    public Object getObject() {
+        return object;
+    }
 }

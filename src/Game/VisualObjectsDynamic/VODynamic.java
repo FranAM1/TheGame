@@ -26,6 +26,10 @@ public abstract class VODynamic extends VO implements Runnable{
         this.setState(VODState.DEAD);
     }
 
+    public void revive(){
+        this.setState(VODState.ALIVE);
+    }
+
     public CoordinatesDTO getPosition() {
         return position;
     }

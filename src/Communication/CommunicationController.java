@@ -3,19 +3,21 @@ package Communication;
 
 import Communication.Channels.Channel;
 import Communication.Interlocutors.Interlocutor;
+import DTO.AppFrame;
 import DTO.DataFrame;
 import Enums.PeerLocation;
+import MainController.TheGamePeerController;
 
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommunicationController {
-    HashMap<String, Channel> channels = new HashMap<>();
+    private HashMap<String, Channel> channels = new HashMap<>();
 
-
-    public CommunicationController() {
-
+    private TheGamePeerController tgpc;
+    public CommunicationController(TheGamePeerController tgpc) {
+        this.tgpc = tgpc;
     }
 
     public void setSocketToChannel(Socket socket){
@@ -36,7 +38,12 @@ public class CommunicationController {
     }
 
     public void addChannel(Interlocutor interlocutor){
-        Channel channel = new Channel(interlocutor);
+        Channel channel = new Channel(interlocutor, this);
         channels.put(interlocutor.getIp(), channel);
+    }
+
+    public void handleAppFrame(AppFrame appFrame, Interlocutor interlocutor) {
+        System.out.println("Handling app frame");
+        this.tgpc.manageAppFrame(appFrame, interlocutor);
     }
 }
