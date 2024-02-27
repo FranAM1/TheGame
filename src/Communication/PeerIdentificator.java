@@ -16,7 +16,9 @@ public class PeerIdentificator implements Runnable{
         if(socket != null){
             System.out.println("IP conexion: " + socket.getInetAddress().getHostAddress());
             try {
-                sc.getCc().setSocketToChannel(socket);
+                for (int i = 0; i < this.sc.getCc().getDownChannels().size(); i++) {
+                    this.sc.getCc().addChannel(socket, i);
+                }
                 Thread.sleep(5000);
             } catch (InterruptedException e) {
                 e.printStackTrace();

@@ -86,6 +86,16 @@ public class TheGameController extends JFrame implements MouseListener {
         model.addVisualObject(visualObject);
     }
 
+    public void openGate(PeerLocation peerLocation){
+        WallLocation wallLocation = this.rules.peerLocationToWallLocation(peerLocation);
+        this.model.openGate(wallLocation);
+    }
+
+    public void closeGate(PeerLocation peerLocation){
+        WallLocation wallLocation = this.rules.peerLocationToWallLocation(peerLocation);
+        this.model.closeGate(wallLocation);
+    }
+
 
     @Override
     public void mouseClicked(MouseEvent e) {

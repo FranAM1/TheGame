@@ -1,12 +1,6 @@
 // ClientConnector.java
 package Communication;
 
-import Communication.Interlocutors.Interlocutor;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 public class ClientConnector implements Runnable {
@@ -38,7 +32,7 @@ public class ClientConnector implements Runnable {
                 try {
 
                     System.out.println("Conectando como cliente al canal: " + i);
-                    this.socket = new Socket(this.cc.getDownChannels().get(i).getInterlocutor().getIp(), 10000);
+                    this.socket = new Socket(this.cc.getDownChannels().get(i).getInterlocutor().getIp(), 8000);
                     this.cc.addChannel(socket, i);
                     System.out.println("Conexion como cliente establecida");
                 } catch (Exception e) {
@@ -60,21 +54,5 @@ public class ClientConnector implements Runnable {
 
     public void setSocket(Socket socket) {
         this.socket = socket;
-    }
-
-    public int getPort() {
-        return port;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

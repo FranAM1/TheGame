@@ -121,6 +121,8 @@ public class Channel implements Runnable{
         } catch (IOException e) {
             System.out.println("Error closing socket");
             e.printStackTrace();
+        } finally {
+            this.cc.moveToDownChannel(this);
         }
     }
 

@@ -1,9 +1,6 @@
 // ServerConnector.java
 package Communication;
 
-import Communication.Channels.Channel;
-import Game.TheGameController;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,10 +13,10 @@ public class ServerConnector implements Runnable {
     private CommunicationController cc;
 
 
-    public ServerConnector(int port, CommunicationController cc) {
+    public ServerConnector(CommunicationController cc) {
         this.cc = cc;
         try {
-            this.serverSocket = new ServerSocket(port);
+            this.serverSocket = new ServerSocket(10000);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

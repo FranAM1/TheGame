@@ -86,12 +86,21 @@ public class TheGamePeerController {
         return null;
     }
 
+    public void openGate(Interlocutor interlocutor){
+        PeerLocation peerLocation = findPeerByIp(interlocutor.getIp()).getLocation();
+        gameController.openGate(peerLocation);
+    }
+
+    public void closeGate(Interlocutor interlocutor){
+        PeerLocation peerLocation = findPeerByIp(interlocutor.getIp()).getLocation();
+        gameController.closeGate(peerLocation);
+    }
+
     public static void main(String[] args) {
         TheGamePeerController mainController = new TheGamePeerController(args);
 
         mainController.run();
     }
-
 
 
     public void run() {

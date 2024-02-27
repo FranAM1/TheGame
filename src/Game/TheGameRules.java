@@ -111,4 +111,18 @@ public class TheGameRules {
                 break;
         }
     }
+
+    public WallLocation peerLocationToWallLocation(PeerLocation peerLocation) {
+        switch (peerLocation) {
+            case NORTH:
+                return WallLocation.NORTH;
+            case SOUTH:
+                return WallLocation.SOUTH;
+            case EAST:
+                return WallLocation.EAST;
+            case WEST:
+                return WallLocation.WEST;
+        }
+        return null;
+    }
 }

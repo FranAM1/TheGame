@@ -28,6 +28,7 @@ public class CommunicationController {
         channel.setSocket(socket);
         Thread thread = new Thread(channel);
         thread.start();
+        this.tgpc.openGate(channel.getInterlocutor());
     }
 
     public void sendObject(Object object, Interlocutor interlocutor) {
@@ -55,6 +56,7 @@ public class CommunicationController {
     public synchronized void moveToDownChannel(Channel channel) {
         this.downChannels.add(channel);
         this.channels.remove(channel.getInterlocutor().getIp());
+        this.tgpc.closeGate(channel.getInterlocutor());
     }
 
     public void handleAppFrame(AppFrame appFrame, Interlocutor interlocutor) {
