@@ -32,15 +32,6 @@ public class CommunicationController {
         serverConnectorThread.start();
     }
 
-    public void setSocketToChannel(Socket socket){
-        String ip = socket.getInetAddress().getHostAddress();
-        Channel channel = channels.get(ip);
-        channel.setSocket(socket);
-        Thread thread = new Thread(channel);
-        thread.start();
-        this.tgpc.openGate(channel.getInterlocutor());
-    }
-
     public void sendObject(Object object, Interlocutor interlocutor) {
         try{
             channels.get(interlocutor.getIp()).sendObject(object);
@@ -61,6 +52,7 @@ public class CommunicationController {
         new Thread(this.downChannels.get(index)).start();
         this.channels.put(this.downChannels.get(index).getInterlocutor().getIp(),this.downChannels.get(index));
         this.downChannels.remove(index);
+        this.tgpc.openGate(this.downChannels.get(index).getInterlocutor());
     }
 
     public synchronized void moveToDownChannel(Channel channel) {

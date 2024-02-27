@@ -12,11 +12,13 @@ public class ServerConnector implements Runnable {
 
     private CommunicationController cc;
 
+    private final int PORT = 10000;
+
 
     public ServerConnector(CommunicationController cc) {
         this.cc = cc;
         try {
-            this.serverSocket = new ServerSocket(10000);
+            this.serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -27,14 +29,25 @@ public class ServerConnector implements Runnable {
     public void run() {
         while (true) {
             try{
-                System.out.println("Waiting for connection");
-                this.clientSocket = this.serverSocket.accept();
-                System.out.println("Connection accepted");
-                cc.setSocketToChannel(clientSocket);
-                new Thread(new PeerIdentificator(this.clientSocket, this)).start();
-            } catch (IOException e) {
+                System.out.println("Servidor escuchando en: " + this.PORT);
+                createConnection();
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+        }
+    }
+
+    public void createConnection() {
+        try {
+
+            System.out.println("Conectando como servidor...");
+            this.clientSocket = serverSocket.accept();
+            System.out.println("Conexion como servidor establecida");
+            new Thread(new PeerIdentificator(this.clientSocket, this)).start();
+        } catch (Exception e) {
+
+            System.out.println("ServerConnector error: " + e);
         }
     }
 
