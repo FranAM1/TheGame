@@ -32,7 +32,7 @@ public class ClientConnector implements Runnable {
                 try {
 
                     System.out.println("Conectando como cliente al canal: " + i+1);
-                    this.socket = new Socket(this.cc.getDownChannels().get(i).getInterlocutor().getIp(), 8000);
+                    this.socket = new Socket(this.cc.getDownChannels().get(i).getInterlocutor().getIp(), 10000);
                     this.cc.addChannel(socket, i);
                     System.out.println("Conexion como cliente establecida");
                 } catch (Exception e) {

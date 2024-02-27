@@ -34,7 +34,7 @@ public class TheGamePeerController {
     }
 
     public void createInterlocutors(){
-        Peer peer = new Peer("127.0.0.1", 8000, PeerLocation.WEST);
+        Peer peer = new Peer("192.168.5.1", 8000, PeerLocation.WEST);
         peers.add(peer);
     }
 

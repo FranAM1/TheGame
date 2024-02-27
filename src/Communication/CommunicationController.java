@@ -51,8 +51,8 @@ public class CommunicationController {
         this.downChannels.get(index).setSocket(socket);
         new Thread(this.downChannels.get(index)).start();
         this.channels.put(this.downChannels.get(index).getInterlocutor().getIp(),this.downChannels.get(index));
-        this.downChannels.remove(index);
         this.tgpc.openGate(this.downChannels.get(index).getInterlocutor());
+        this.downChannels.remove(index);
     }
 
     public synchronized void moveToDownChannel(Channel channel) {
