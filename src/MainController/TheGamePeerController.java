@@ -24,17 +24,20 @@ public class TheGamePeerController {
 
     private ArrayList<Peer> peers;
 
+    private static int MyPort = 10000;
+    private static int OtherPort = 10001;
+
     public TheGamePeerController() {
         this.fileName = "config.ini";
         this.peers = new ArrayList<>();
         createInterlocutors();
         this.gameController = new TheGameController(this);
-        this.commsController = new CommunicationController(this);
+        this.commsController = new CommunicationController(this, MyPort, OtherPort);
 
     }
 
     public void createInterlocutors(){
-        Peer peer = new Peer("192.168.5.1", 8000, PeerLocation.WEST);
+        Peer peer = new Peer("localhost", OtherPort, PeerLocation.WEST);
         peers.add(peer);
     }
 

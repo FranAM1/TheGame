@@ -6,9 +6,11 @@ import java.net.Socket;
 public class ClientConnector implements Runnable {
     private Socket socket;
     private CommunicationController cc;
+    private int PORT;
 
-    public ClientConnector(CommunicationController cc) {
+    public ClientConnector(CommunicationController cc, int PORT) {
         this.cc = cc;
+        this.PORT = PORT;
     }
 
     @Override
@@ -32,7 +34,7 @@ public class ClientConnector implements Runnable {
                 try {
 
                     System.out.println("Conectando como cliente al canal: " + i+1);
-                    this.socket = new Socket(this.cc.getDownChannels().get(i).getInterlocutor().getIp(), 10000);
+                    this.socket = new Socket(this.cc.getDownChannels().get(i).getInterlocutor().getIp(), this.PORT);
                     this.cc.addChannel(socket, i);
                     System.out.println("Conexion como cliente establecida");
                 } catch (Exception e) {

@@ -12,11 +12,12 @@ public class ServerConnector implements Runnable {
 
     private CommunicationController cc;
 
-    private final int PORT = 10000;
+    private int PORT;
 
 
-    public ServerConnector(CommunicationController cc) {
+    public ServerConnector(CommunicationController cc, int PORT) {
         this.cc = cc;
+        this.PORT = PORT;
         try {
             this.serverSocket = new ServerSocket(PORT);
         } catch (IOException e) {

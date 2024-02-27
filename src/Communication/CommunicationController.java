@@ -17,16 +17,16 @@ public class CommunicationController {
     private ArrayList<Channel> downChannels = new ArrayList<>();
     private TheGamePeerController tgpc;
 
-    public CommunicationController(TheGamePeerController tgpc) {
+    public CommunicationController(TheGamePeerController tgpc, int myPort, int otherPort) {
         this.tgpc = tgpc;
         createChannels();
 
-        ClientConnector clientConnector = new ClientConnector(this);
+        ClientConnector clientConnector = new ClientConnector(this, otherPort);
         Thread clientConnectorThread = new Thread(clientConnector);
         clientConnectorThread.setName("ClientConnector");
         clientConnectorThread.start();
 
-        ServerConnector serverConnector = new ServerConnector(this);
+        ServerConnector serverConnector = new ServerConnector(this, myPort);
         Thread serverConnectorThread = new Thread(serverConnector);
         serverConnectorThread.setName("ServerConnector");
         serverConnectorThread.start();
