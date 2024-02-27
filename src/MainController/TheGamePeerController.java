@@ -141,12 +141,4 @@ public class TheGamePeerController {
     public void setPeers(ArrayList<Peer> peers) {
         this.peers = peers;
     }
-
-    public String[] getArgs() {
-        return args;
-    }
-
-    public void setArgs(String[] args) {
-        this.args = args;
-    }
 }
