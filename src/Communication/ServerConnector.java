@@ -25,14 +25,16 @@ public class ServerConnector implements Runnable {
 
     @Override
     public void run() {
-        try{
-            System.out.println("Waiting for connection");
-            this.clientSocket = this.serverSocket.accept();
-            System.out.println("Connection accepted");
-            cc.setSocketToChannel(clientSocket);
-            new Thread(new PeerIdentificator(this.clientSocket, this)).start();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        while (true) {
+            try{
+                System.out.println("Waiting for connection");
+                this.clientSocket = this.serverSocket.accept();
+                System.out.println("Connection accepted");
+                cc.setSocketToChannel(clientSocket);
+                new Thread(new PeerIdentificator(this.clientSocket, this)).start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
