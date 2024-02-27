@@ -31,7 +31,7 @@ public class ClientConnector implements Runnable {
             for (int i = 0; i < this.cc.getDownChannels().size(); i++) {
                 try {
 
-                    System.out.println("Conectando como cliente al canal: " + i);
+                    System.out.println("Conectando como cliente al canal: " + i+1);
                     this.socket = new Socket(this.cc.getDownChannels().get(i).getInterlocutor().getIp(), 8000);
                     this.cc.addChannel(socket, i);
                     System.out.println("Conexion como cliente establecida");

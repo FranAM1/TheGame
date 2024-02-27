@@ -15,11 +15,21 @@ import java.util.HashMap;
 public class CommunicationController {
     private HashMap<String, Channel> channels = new HashMap<>();
     private ArrayList<Channel> downChannels = new ArrayList<>();
-
     private TheGamePeerController tgpc;
+
     public CommunicationController(TheGamePeerController tgpc) {
         this.tgpc = tgpc;
         createChannels();
+
+        ClientConnector clientConnector = new ClientConnector(this);
+        Thread clientConnectorThread = new Thread(clientConnector);
+        clientConnectorThread.setName("ClientConnector");
+        clientConnectorThread.start();
+
+        ServerConnector serverConnector = new ServerConnector(this);
+        Thread serverConnectorThread = new Thread(serverConnector);
+        serverConnectorThread.setName("ServerConnector");
+        serverConnectorThread.start();
     }
 
     public void setSocketToChannel(Socket socket){

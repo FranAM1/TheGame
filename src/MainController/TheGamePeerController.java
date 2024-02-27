@@ -26,17 +26,16 @@ public class TheGamePeerController {
 
     public TheGamePeerController() {
         this.fileName = "config.ini";
-        this.gameController = new TheGameController(this);
-        this.commsController = new CommunicationController(this);
         this.peers = new ArrayList<>();
         createInterlocutors();
+        this.gameController = new TheGameController(this);
+        this.commsController = new CommunicationController(this);
+
     }
 
     public void createInterlocutors(){
         Peer peer = new Peer("127.0.0.1", 8000, PeerLocation.EAST);
         peers.add(peer);
-
-        createClientServer();
     }
 
     private Peer findPeerByLocation(PeerLocation peerLocation){
@@ -55,18 +54,6 @@ public class TheGamePeerController {
         DataFrame dataFrame = new DataFrame(DataFrameType.APPLICATION_FRAME, appFrame);
 
         commsController.sendObject(dataFrame, interlocutorToSend);
-    }
-
-    public void createClientServer(){
-        ClientConnector clientConnector = new ClientConnector(this.commsController);
-        Thread clientConnectorThread = new Thread(clientConnector);
-        clientConnectorThread.setName("ClientConnector");
-        clientConnectorThread.start();
-
-        ServerConnector serverConnector = new ServerConnector(this.commsController);
-        Thread serverConnectorThread = new Thread(serverConnector);
-        serverConnectorThread.setName("ServerConnector");
-        serverConnectorThread.start();
     }
 
     public void manageAppFrame(AppFrame appFrame, Interlocutor interlocutor) {
