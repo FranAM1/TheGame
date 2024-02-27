@@ -10,16 +10,18 @@ import Game.VisualObjects.VO;
 import Game.VisualObjectsDynamic.VODynamic;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class TheGameModel {
     TheGameController controller;
-    private ArrayList<VO> visualObjects;
+    private List<VO> visualObjects;
     private int dimensionX;
     private int dimensionY;
 
     public TheGameModel(int dimensionX, int dimensionY, TheGameController controller) {
         this.controller = controller;
-        visualObjects = new ArrayList<>();
+        visualObjects = Collections.synchronizedList(new ArrayList<>()); ;
         this.dimensionX = dimensionX;
         this.dimensionY = dimensionY;
     }
@@ -72,7 +74,7 @@ public class TheGameModel {
         visualObjects.add(visualObject);
     }
 
-    public ArrayList<VO> getVisualObjects() {
+    public List<VO> getVisualObjects() {
         return visualObjects;
     }
 
